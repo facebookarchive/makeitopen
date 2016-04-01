@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body>
+    {% include nav.html alwayson=true %}
+    <div class="navPusher">
+      <div class="mainContainer">
+        <div id="main_wrap" class="wrapper mainWrapper">
+          {{ content }}
+          <h2 class="tutorialHeader">Learning</h2>
+          <div class="tutorialList">
+            {% for tutorial in site.data.nav_docs %}
+              <div class="tutorialBlock">
+                {% for docitem in site.docs %}
+                  {% if docitem.pageid == tutorial.items.first.id %}
+                    {% assign firstpart = docitem %}
+                  {% endif %}
+                {% endfor %}
+                {% if firstpart.seriessplash %}
+                <div
+                  class="tutorialSplash">
+                  <a href="{{ site.baseurl }}{{ firstpart.url }}">
+                    <img src="{{ firstpart.seriessplash }}" />
+                  </a>
+                </div>
+                {% endif %}
+                <h3>
+                  <a
+                    href="{{ site.baseurl }}{{ firstpart.url }}"
+                  >{{ tutorial.title }}</a>
+                </h3>
+
+                <div class="intro">{{ firstpart.seriesintro }}</div>
+
+                <div class="tutorialParts">
+                  {% for item in tutorial.items %}
+                    {% for docitem in site.docs %}
+                      {% if docitem.pageid == item.id %}
+                        {% assign doc = docitem %}
+                      {% endif %}
+                    {% endfor %}
+                    <div class="tutorialPart">
+                      <h4>
+                        <span>Part {{ forloop.index }}</span>
+                        <a href="{{ site.baseurl }}{{ doc.url }}">{{ doc.subtitle }}</a>
+                      </h4>
+                      <div class="tutorialPartIntro">
+                        {{ doc.intro }}
+                      </div>
+                      <a
+                        class="button tutorialPartButton"
+                        href="{{ site.baseurl }}{{ doc.url }}"
+                      >Read More</a>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="featuredTech">
+            <h2 class="blockHeader">Explore React</h2>
+            <div class="features">
+              {% for group in site.data.features %}
+              <div class="featuredGroup">
+                <h3>{{ group.title }}</h3>
+                <ul>
+                  {% for project in group.items %}
+                  <li>
+                    <a
+                      href="{{ project.link }}"
+                      target="_blank"
+                    >{{ project.title }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include footer.html %}
+    </div>
+  </body>
+
+</html>
