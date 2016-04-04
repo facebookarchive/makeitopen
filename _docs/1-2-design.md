@@ -20,7 +20,7 @@ From a UI perspective, as platforms have somewhat different visual styles, UI pa
 
 ### Before We Start
 
-In this and subsequent tutorials, we're going to be diving into the code of the app itself, so you should [grab the source code](https://github.com/facebook/f8app) and clone it somewhere you can conveniently browse. You could also follow [the setup instructions on the React Native site](http://facebook.github.io/react-native/docs/getting-started.html) to use this to run the app yourself, but for the purposes of this tutorial, you just need to see the source code itself.
+In this and subsequent tutorials, we're going to be diving into the code of the app itself, so you should [grab the source code](https://github.com/fbsamples/f8app) and clone it somewhere you can conveniently browse. You could also follow [the setup instructions on the React Native site](http://facebook.github.io/react-native/docs/getting-started.html) to use this to run the app yourself, but for the purposes of this tutorial, you just need to see the source code itself.
 
 ### Varying Smaller Components
 
@@ -252,7 +252,7 @@ By comparison the iOS version uses a different built-in component directly in th
       );
     }
 
-You can see that although the iOS menu takes much of the same data, it has a slightly different structure. Instead of a separate function to create the menu items, they are instead inserted as children of the parent menu, as [`TabBarItemIOS`](http://facebook.github.io/react-native/docs/tabbarios-item.html#content) components.
+You can see that although the iOS menu takes much of the same data, it has a slightly different structure. Instead of a separate function to create the menu items, they are inserted as children of the parent menu, as [`TabBarItemIOS`](http://facebook.github.io/react-native/docs/tabbarios-item.html#content) components.
 
 These `TabBarItem`s are essentially equivalent to the Android `MenuItem` components - the difference being that in the Android component we defined a single main [`View` component](http://facebook.github.io/react-native/docs/view.html#content) (`2` in the first Android snippet above) and change it whenever a tab change occurs (using the `renderContent()` function called at `3` in the Android snippet), while the iOS component has multiple separate `View` components (for example, `1` in the iOS snippet above) that are part of the `TabBarItem` that is tapped to make them visible.
 
@@ -263,8 +263,6 @@ You could remove some duplicate code between these two components by providing t
 When you're building any kind of app, mobile or web, it can be painful to quickly tweak and adjust UI elements. If an engineer and designer are working together, this can slow the whole process down.
 
 React Native contains a [live reload](http://facebook.github.io/react-native/docs/debugging.html#live-reload) debugging feature which triggers a refresh of the app anytime the JavaScript is changed. This can cut down on the design iteration process - make a change to a components styles, and save, and you'll see the change instantly.
-
-> Note that changes to resources or native code require a re-build
 
 But what about a component that looks different under multiple conditions? For example, a button component might have a default style, but also styles for tapped, busy doing a task, completed a task, etc.
 
