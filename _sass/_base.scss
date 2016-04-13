@@ -202,6 +202,7 @@ h1, h2, h3, h4 {
     .footerSection {
       box-sizing: border-box;
       flex: 1 1 25%;
+      -webkit-flex: 1 1 25%;
       font-size: 14px;
       min-width: 275px;
       padding: 0px 20px;
