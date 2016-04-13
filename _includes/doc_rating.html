@@ -1,0 +1,51 @@
+<div class="feedbackWidget" id="feedback_widget">
+  <div class="feedbackUnvoted">
+    <div class="feedbackLabel">Was this tutorial helpful?</div>
+    <div class="feedbackButtons">
+      <div class="feedbackButton" id="feedback_upvote">Yes</div>
+      <div class="feedbackButton" id="feedback_downvote">No</div>
+    </div>
+  </div>
+  <div class="feedbackVoted">
+    <div class="feedbackLabel">Thanks for rating this tutorial</div>
+  </div>
+  <div class="feedbackIssues">If you have specific feedback, please either <a id="issue_link" href="https://github.com/facebook/makeitopen/issues/new?title=&body=Please+complete+the+information+below%3A%0A%0A%23+Where+is+the+problem%3F%0A%0A-+-+-+eg+%22The+section+describing+how+foo+works%22+-+-+-%0A%0A%23+What+is+the+problem%3F%0A%0A-+-+-+eg+%22It+doesn%27t+explain+that+foos+are+bars%22+-+-+-%0A%0A--------------------------------%0APlease+don%27t+change+anything+below+this+point.%0A--------------------------------%0A%0A+-+Page+requested%3A+{{ page.permalink | url_param_escape }}%0A+-+Page+requested+at%3A+{{ 'now' | date: '%c' | url_param_escape }}%0A+-+Doc%3A+{{ page.title | url_param_escape }}&labels=enhancement&assignee=matthewjohnston4" target="_blank">create an issue on GitHub</a> or <a href="https://github.com/facebook/makeitopen/edit/gh-pages/_docs/{{ page.pageid }}.md" target="_blank" id="edit_link">submit your own changes for review</a>.</div>
+</div>
+
+<script>
+  var voted = readCookie('_{{ page.pageid }}_voted');
+  var widget = document.getElementById('feedback_widget');
+  var issueLink = document.getElementById('issue_link');
+  issueLink.onclick = function() {
+    ga('send', 'event', 'Feedback', 'issue', '{{ page.title }}');
+  }
+  var editLink = document.getElementById('edit_link');
+  editLink.onclick = function() {
+    ga('send', 'event', 'Feedback', 'edit', '{{ page.title }}');
+  }
+
+  if (voted === 'true') {
+    widget.className = 'feedbackWidget feedbackHasVoted';
+  } else {
+    widget.className = 'feedbackWidget feedbackNotVoted';
+    var upvote = document.getElementById('feedback_upvote');
+    upvote.onclick = function() {
+      ga('send', 'event', 'Feedback', 'upvote', '{{ page.title }}');
+      upvote.className = "feedbackButton buttonClicked";
+      downvote.onclick = '';
+      upvote.onclick = '';
+      document.cookie = "_{{ page.pageid }}_voted=true";
+      widget.className = 'feedbackWidget feedbackHasVoted';
+    }
+    var downvote = document.getElementById('feedback_downvote');
+    downvote.onclick = function() {
+      ga('send', 'event', 'Feedback', 'downvote', '{{ page.title }}');
+      downvote.className = "feedbackButton buttonClicked";
+      downvote.onclick = '';
+      upvote.onclick = '';
+      document.cookie = "_{{ page.pageid }}_voted=true";
+      widget.className = 'feedbackWidget feedbackHasVoted';
+    }
+  }
+  function readCookie(n){return(n=new RegExp('(?:^|;\\s*)'+(''+n).replace(/[-[\]{}()*+?.,\\^$|#\s]/g,'\\$&')+'=([^;]*)').exec(document.cookie))&&n[1];}
+</script>

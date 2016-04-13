@@ -1,0 +1,11 @@
+---
+layout: default
+---
+{% assign series = site.data.tutorials[page.series] %}
+<div class="mainContainer blogContainer postContainer">
+  <div id="main_wrap" class="wrapper mainWrapper">
+    {{ content }}
+    {% include nav_docs.html %}
+  </div>
+</div>
+

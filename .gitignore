@@ -1,0 +1,12 @@
+*~
+.sass-cache/
+_site/
+.jekyll-metadata
+*.psd
+_config_*.yml
+
+# Ignore locked gems because GitHub Pages controls the gems in production, not Nuclide. Omit the
+# lock so `bundle install` always installs the latest.
+Gemfile.lock
+*.psd
+_docs/updates.md

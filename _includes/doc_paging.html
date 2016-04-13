@@ -1,0 +1,47 @@
+{% assign series = site.data.tutorials[page.series] %}
+{% for item in series.items %}
+  {% if item.id == page.pageid %}
+  {% assign currentitem = item %}
+  {% endif %}
+{% endfor %}
+{% for doc in site.docs %}
+  {% if doc.pageid == currentitem.id %}
+    {% assign currentdoc = doc %}
+    {% assign currentindex = forloop.index0 %}
+    {% assign nextindex = currentindex | plus: 1 %}
+    {% assign previndex = currentindex | minus: 1 %}
+  {% endif %}
+  {% assign serieslength = forloop.length %}
+{% endfor %}
+
+{% if previndex >= 0 %}
+  {% assign previous = site.docs[previndex] %}
+{% endif %}
+
+{% if nextindex < serieslength %}
+  {% assign next = site.docs[nextindex] %}
+{% endif %}
+
+{% if previous or next %}
+<div class="postPagination">
+{% if previous %}
+<div class="pagingLink previousLink">
+  <a href="{{ site.baseurl }}{{ previous.url }}">
+    <i>&lsaquo;</i>
+    <span>{{ previous.title }}</span>
+  </a>
+</div>
+{% endif %}
+
+{% if next %}
+<div class="pagingLink nextLink">
+  <a href="{{ site.baseurl }}{{ next.url }}">
+    <span>{{ next.title }}</span>
+    <i>&rsaquo;</i>
+  </a>
+</div>
+{% endif %}
+</div>
+{% endif %}
+
+
