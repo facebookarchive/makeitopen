@@ -92,15 +92,21 @@
             display: block;
             flex: 1 1;
 
+            pre {
+              font: 300 12px/1.5em Hack, monospace;
+            }
+
             &.gutter {
               border-right: 1px solid lighten($code-bg, 10%);
               color: lighten($code-bg, 15%);
               flex: 0 1 20px;
+              font: 300 12px/1.5em Hack, monospace;
               margin-right: 10px;
               padding-right: 10px;
               width: 20px;
 
               pre {
+                font: 300 12px/1.5em Hack, monospace;
                 width: 20px;
               }
             }
