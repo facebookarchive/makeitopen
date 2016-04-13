@@ -191,10 +191,12 @@ h1, h2, h3, h4 {
     .footerBlocks {
       align-items: center;
       align-content: center;
+      box-sizing: border-box;
       display: flex;
       flex-flow: row wrap;
       margin: 0 -20px;
       padding: 10px 0;
+      max-width: 100%;
     }
 
     .footerSection {
@@ -936,6 +938,7 @@ a.blockButton {
       display: flex;
       flex-flow: row wrap;
       margin: 5px -20px;
+      max-width: 100%;
 
       .tutorialPart {
         box-sizing: border-box;
@@ -1000,13 +1003,16 @@ a.blockButton {
 
 .featuredTech {
   background: $primary-bg;
+  box-sizing: border-box;
   color: white;
+  max-width: 100%;
   padding: 20px;
 
   .features {
     display: flex;
     flex-flow: row wrap;
     margin: -20px -20px 0;
+    max-width: 100%;
 
     .featuredGroup {
       box-sizing: border-box;
