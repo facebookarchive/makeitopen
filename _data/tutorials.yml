@@ -6,9 +6,11 @@ buildingf8app:
   intro: >
     <p>Every year, as part of the F8 conference, Facebook builds iOS and Android apps that give attendees a schedule for the conference, and let them learn more about the talks and speakers. The apps have also provided reminders for upcoming talks and ad-hoc announcements to attendees.</p>
 
-    <p>This year, we wanted to not only release the source code, but also to produce a series of tutorials. These were designed to introduce React Native and its Open Source ecosystem in plain English. </p>
+    <p>This year, we wanted to not only release the source code, but also to produce a series of tutorials. These were designed to introduce React Native and its Open Source ecosystem in plain English.</p>
 
-    <p>This tutorial series has been written during the app's development. Elements, such as code samples, will continue to evolve and improve over time after the app has been released. Comments and feedback are welcome via <a href="https://github.com/facebook/makeitopen/issues">GitHub issues</a>. The tutorials are designed to be readable individually, but we recommend reading through in sequence.</p>
+    <p>This tutorial series has been written during the app's development. Elements, such as code samples, will continue to evolve and improve over time after the app has been released - <a href="/feed">subscribe to keep up to date</a>.</p>
+
+    <p>Comments and feedback are welcome via <a href="https://github.com/facebook/makeitopen/issues">GitHub issues</a>. The tutorials are designed to be readable individually, but we recommend reading through in sequence.</p>
   items:
   - id: 1-1-planning
   - id: 1-2-design
