@@ -41,6 +41,7 @@
                         {% assign doc = docitem %}
                       {% endif %}
                     {% endfor %}
+                    {% if doc.type == 'appendix' %}<hr class="appendixBreak" />{% endif %}
                     <div class="tutorialPart{% if doc.type %} tutorialPart{{ doc.type | capitalize }}{% endif %}">
                       <h4>
                         <span>{{ doc.partlabel }}</span>

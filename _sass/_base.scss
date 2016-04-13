@@ -189,23 +189,14 @@ h1, h2, h3, h4 {
     padding: 0;
 
     .footerBlocks {
-      align-items: center;
-      align-content: center;
-      box-sizing: border-box;
-      display: flex;
-      flex-flow: row wrap;
-      margin: 0 -20px;
+      margin: 0 0px;
       padding: 10px 0;
       max-width: 100%;
     }
 
     .footerSection {
-      box-sizing: border-box;
-      flex: 1 1 25%;
-      -webkit-flex: 1 1 25%;
       font-size: 14px;
-      min-width: 275px;
-      padding: 0px 20px;
+      padding: 0px;
 
       a {
         border: 0;
@@ -936,16 +927,24 @@ a.blockButton {
     }
 
     .tutorialParts {
-      display: flex;
-      flex-flow: row wrap;
+      display: block;
       margin: 5px -20px;
       max-width: 100%;
 
+      hr {
+        display: none;
+
+        &:first-of-type {
+          display: block;
+          height: 0;
+          width: 100%;
+          visibility: hidden;
+        }
+      }
+
       .tutorialPart {
         box-sizing: border-box;
-        flex: 1 1 25%;
-        min-width: 275px;
-        padding: 20px;
+        padding: 0 20px;
 
         h4 {
           span {
@@ -1010,17 +1009,14 @@ a.blockButton {
   padding: 20px;
 
   .features {
-    display: flex;
-    flex-flow: row wrap;
-    margin: -20px -20px 0;
+    display: block;
+    margin: -20px 0px 0;
     max-width: 100%;
 
     .featuredGroup {
       box-sizing: border-box;
-      flex: 1 1 25%;
-      max-width: 25%;
-      min-width: 275px;
-      padding: 20px;
+      padding: 20px 0;
+      width: 100%;
 
       h3 {
         font-size: 12px;
@@ -1280,14 +1276,6 @@ a.blockButton {
       text-align: left;
     }
   }
-
-  .footerSection {
-    &.rightAlign {
-      margin-left: auto;
-      padding-left: 60px;
-      text-align: right;
-    }
-  }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1308,6 +1296,66 @@ a.blockButton {
       .postSplash {
         display: block;
         margin-top: 2vw;
+      }
+    }
+  }
+
+  .footerContainer {
+    .footerWrapper {
+      .footerBlocks {
+        align-items: center;
+        align-content: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-flow: row wrap;
+
+        .footerSection {
+          box-sizing: border-box;
+          flex: 1 1 25%;
+          min-width: 275px;
+          padding: 0px 20px;
+
+          &.rightAlign {
+            margin-left: auto;
+            padding-left: 60px;
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+
+  .featuredTech {
+    .features {
+      display: flex;
+      flex-flow: row wrap;
+      margin: -20px -20px 0;
+      max-width: 100%;
+
+      .featuredGroup {
+        box-sizing: border-box;
+        flex: 1 1 25%;
+        max-width: 25%;
+        min-width: 275px;
+        padding: 20px;
+      }
+    }
+  }
+
+  .tutorialList {
+    .tutorialBlock {
+      .tutorialParts {
+        display: flex;
+        flex-flow: row wrap;
+        margin: 5px -20px;
+        max-width: 100%;
+
+        .tutorialPart {
+          box-sizing: border-box;
+          flex: 1 1 25%;
+          min-width: 275px;
+          padding: 20px;
+        }
       }
     }
   }
