@@ -218,7 +218,6 @@ h1, h2, h3, h4 {
       align-items: center;
       display: flex;
       flex-flow: row nowrap;
-      max-width: 25%;
 
       .facebookOSSLogoSvg {
         flex: 0 0 31px;
@@ -1320,6 +1319,10 @@ a.blockButton {
             padding-left: 60px;
             text-align: right;
           }
+        }
+
+        .fbOpenSourceFooter {
+          max-width: 25%;
         }
       }
     }
