@@ -165,7 +165,7 @@ As you can see, the iOS version uses fixed tabs at the bottom of the screen, whe
 
 You *could* continue to use a single component for all of this, but that component's logic would be full of a large number of control statements, and it would rapidly become very difficult to understand.
 
-Instead, we can take advantage of React Native's built-in [Platform specific extensions](http://facebook.github.io/react-native/docs/platform-specific-code.html#platform-specific-extensions). This let's us create two separate components, in this case one named `F8TabsView.ios.js`, and another named `F8TabsView.android.js` - React Native will auto-detect and load the correct component for each platform based on this extension naming.
+Instead, we can take advantage of React Native's built-in [Platform specific extensions](http://facebook.github.io/react-native/docs/platform-specific-code.html#platform-specific-extensions). This lets us create two separate components, in this case one named `F8TabsView.ios.js`, and another named `F8TabsView.android.js` - React Native will auto-detect and load the correct component for each platform based on this extension naming.
 
 #### Built-in UI Components
 
