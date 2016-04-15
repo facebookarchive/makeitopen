@@ -449,7 +449,7 @@ function actions(dispatch) {
 module.exports = connect(select, actions)(GeneralScheduleView);
 ```
 
-There's a difference this time - we provide the React-Redux [`connect()` function](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options's optional argument, [`mapDispatchToProps`](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments). Basically, doing this merges the action creators inside `actions()` into the component's props, while wrapping them in `dispatch()` so that they immediately dispatch an Action.
+There's a difference this time - we provide the React-Redux [`connect()` function](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)'s optional argument, [`mapDispatchToProps`](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments). Basically, doing this merges the action creators inside `actions()` into the component's props, while wrapping them in `dispatch()` so that they immediately dispatch an Action.
 
 ##### How it Works
 
