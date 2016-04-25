@@ -12,7 +12,7 @@ When we originally planned the app [we discussed the choice of data layer](tutor
 
 At the time, Redux was chosen because it offered the simpler data impementation of the two, and was quicker and easier to integrate with our Parse data storage.
 
-Once the app was released to the iOS and Android app stores, we wanted to revisit that choice, and look at how Relay could work with our app.
+Once the app was released to the iOS(https://itunes.apple.com/us/app/f8/id853467066) and Android(https://play.google.com/store/apps/details?id=com.facebook.f8) app stores, we wanted to revisit that choice, and look at how Relay could work with our app.
 
 ### Gradual Evolution
 
