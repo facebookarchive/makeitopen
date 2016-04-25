@@ -9,7 +9,7 @@ intro: >
   Explore how you can use Nuclide, Flow, and Jest with React Native to improve the quality of your code as you're writing it.
 ---
 
-*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*
+*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*
 
 In classic software development life cycles, the testing phase is always seen as just that - a distinct phase that usually happens near the end of development. This can be even more true when working with freshly minted Open Source frameworks, because their releases tend to not be accompanied by any kind of testing technology.
 
