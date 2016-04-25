@@ -33,7 +33,7 @@ Of course, some components are more complex than others, so let's explore some d
 
 ### Varying Smaller Components
 
-Here is at an example from the F8 app:
+Here is an example from the F8 app:
 
 ![iOS and Android Segmented Controls Comparison]({{ site.baseurl }}/static/images/iOS vs Android Segmented Controls@3x.png)
 
