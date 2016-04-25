@@ -9,7 +9,7 @@ intro: >
   We explain data flow in React Native, how Redux works within the F8 app, and the simple process of connecting Parse Server.
 ---
 
-*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*
+*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*
 
 [React](http://facebook.github.io/react/), and by extension [React Native](http://facebook.github.io/react-native/), allows you to build apps without worrying too much about where your data is coming from, so that you can get on with the business of creating the app's UI and its logic.
 
