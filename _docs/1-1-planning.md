@@ -9,7 +9,7 @@ intro: >
   In this first part, we're going to talk about how we planned the app, and how and why we picked the stack of technologies to use.
 ---
 
-*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*
+*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*
 
 In this first part, we're going to talk about how we planned the app; in later parts we will share sample code, discuss multi-platform design considerations, analyze the data layer in our app, and explain our testing strategy.
 
