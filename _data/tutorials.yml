@@ -19,3 +19,4 @@ buildingf8app:
   - id: 1-A1-local-setup
   - id: 1-A2-relay
   - id: 1-A3-windows
+  - id: 1-A4-translations
