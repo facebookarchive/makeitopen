@@ -334,7 +334,7 @@ But what about a component that looks different under multiple conditions? For e
 To avoid having to interact with the app each time, we built in a visual debugging `Playground` component:
 
 ```js
-/* from js/setup.js */
+/* from js/Playground.js */
 class Playground extends React.Component {
   constructor(props) {
     super(props);
