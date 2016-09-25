@@ -249,7 +249,7 @@ function configureStore(onComplete: ?() => void) {
 }
 ```
 
-At line 5 we're creating the Logger middleware [with some options](https://github.com/fcomb/redux-logger#options-1) and then at line 10 we're applying it using Redux's [`applyMiddleware()` function](http://redux.js.org/docs/api/applyMiddleware.html). This is all we need to do in order to see those logging entries show up in the console.
+At line 5 we're creating the Logger middleware [with some options](https://github.com/fcomb/redux-logger#options-1) and then at line 11 we're applying it using Redux's [`applyMiddleware()` function](http://redux.js.org/docs/api/applyMiddleware.html). This is all we need to do in order to see those logging entries show up in the console.
 
 At line 4 we're triggering extra debugging functionality by using a [global variable](http://www.w3schools.com/js/js_scope.asp) called `__DEV__` that'll let us switch into and out of debugging mode with a simple boolean change. Not only does this determine whether the created logger middleware actually logs actions (using the [`predicate` option](https://github.com/fcomb/redux-logger#predicate--getstate-function-action-object--boolean)), but also at line 17 it adds a copy of the current Store object to the [Window object](http://www.w3schools.com/jsref/obj_window.asp). This just saves having to add it to the Window everytime, which in turn makes it easier to browse directly via the console.
 
