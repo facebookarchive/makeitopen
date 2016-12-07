@@ -220,7 +220,7 @@ The fact that Redux Reducers mutate the `state` tree in our app makes it absolut
 
 When you're trying to locate a bug, or find a fix for one, it's helpful to have some debugging tools on hand. We've already described [how we built a system for debugging our app's visual elements]({{ site.baseurl }}/tutorials/building-the-f8-app/design/#the-design-iteration-cycle), but what about the data?
 
-We're using the [Chrome Developer Tools](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) through [Nuclide](http://nuclide.io/docs/features/debugger/) along with the [Redux Logger](http://fcomb.github.io/redux-logger/) middleware, which provides the console with additional Redux context such as Actions or `state` changes in Reducers:
+We're using the [Chrome Developer Tools](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) through [Nuclide](http://nuclide.io/docs/features/debugger/) along with the [Redux Logger](http://evgenyrodionov.github.io/redux-logger/) middleware, which provides the console with additional Redux context such as Actions or `state` changes in Reducers:
 
 ![Redux Logger Middleware in action with additional console context](static/images/redux_logger.png)
 
