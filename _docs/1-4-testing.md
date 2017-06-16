@@ -9,7 +9,7 @@ intro: >
   Explore how you can use Nuclide, Flow, and Jest with React Native to improve the quality of your code as you're writing it.
 ---
 
-*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*
+*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*
 
 In classic software development life cycles, the testing phase is always seen as just that - a distinct phase that usually happens near the end of development. This can be even more true when working with freshly minted Open Source frameworks, because their releases tend to not be accompanied by any kind of testing technology.
 
@@ -220,7 +220,7 @@ The fact that Redux Reducers mutate the `state` tree in our app makes it absolut
 
 When you're trying to locate a bug, or find a fix for one, it's helpful to have some debugging tools on hand. We've already described [how we built a system for debugging our app's visual elements]({{ site.baseurl }}/tutorials/building-the-f8-app/design/#the-design-iteration-cycle), but what about the data?
 
-We're using the [Chrome Developer Tools](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) through [Nuclide](http://nuclide.io/docs/features/debugger/) along with the [Redux Logger](http://fcomb.github.io/redux-logger/) middleware, which provides the console with additional Redux context such as Actions or `state` changes in Reducers:
+We're using the [Chrome Developer Tools](https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools) through [Nuclide](http://nuclide.io/docs/features/debugger/) along with the [Redux Logger](http://evgenyrodionov.github.io/redux-logger/) middleware, which provides the console with additional Redux context such as Actions or `state` changes in Reducers:
 
 ![Redux Logger Middleware in action with additional console context](static/images/redux_logger.png)
 
@@ -249,7 +249,7 @@ function configureStore(onComplete: ?() => void) {
 }
 ```
 
-At line 5 we're creating the Logger middleware [with some options](https://github.com/fcomb/redux-logger#options-1) and then at line 10 we're applying it using Redux's [`applyMiddleware()` function](http://redux.js.org/docs/api/applyMiddleware.html). This is all we need to do in order to see those logging entries show up in the console.
+At line 5 we're creating the Logger middleware [with some options](https://github.com/fcomb/redux-logger#options-1) and then at line 11 we're applying it using Redux's [`applyMiddleware()` function](http://redux.js.org/docs/api/applyMiddleware.html). This is all we need to do in order to see those logging entries show up in the console.
 
 At line 4 we're triggering extra debugging functionality by using a [global variable](http://www.w3schools.com/js/js_scope.asp) called `__DEV__` that'll let us switch into and out of debugging mode with a simple boolean change. Not only does this determine whether the created logger middleware actually logs actions (using the [`predicate` option](https://github.com/fcomb/redux-logger#predicate--getstate-function-action-object--boolean)), but also at line 17 it adds a copy of the current Store object to the [Window object](http://www.w3schools.com/jsref/obj_window.asp). This just saves having to add it to the Window everytime, which in turn makes it easier to browse directly via the console.
 

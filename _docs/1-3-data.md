@@ -9,7 +9,7 @@ intro: >
   We explain data flow in React Native, how Redux works within the F8 app, and the simple process of connecting Parse Server.
 ---
 
-*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*
+*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*
 
 [React](http://facebook.github.io/react/), and by extension [React Native](http://facebook.github.io/react-native/), allows you to build apps without worrying too much about where your data is coming from, so that you can get on with the business of creating the app's UI and its logic.
 
@@ -63,7 +63,7 @@ It expands on React's data relationship by introducing the concept of Stores, co
 * The Action is sent to the **Dispatcher**.
 * The Dispatcher propagates this Action to all of the various registered Store callbacks.
 * If the Store can tell that it was affected by an Action (because the action type is related to its data), it will update itself, and therefore the contained `state`. Once updated, it'll emit a change event.
-* Special Views called **Controller Views** (a fancy term for the [container components](#containercomponents) we mentioned above) will be listening for these change events, and when they get one, they know they should fetch the new Store data.
+* Special Views called **Controller Views** (a fancy term for the [container components](/tutorials/building-the-f8-app/data/#containercomponents) we mentioned above) will be listening for these change events, and when they get one, they know they should fetch the new Store data.
 + Once fetched they call [`setState()`](https://facebook.github.io/react/docs/component-api.html#setstate) with the new data, causing the components inside the View to re-render.
 
 You can see how Flux helps to enforce the one-way flow of data within React apps, and it makes the data part of React much more elegant and structured.
@@ -429,7 +429,7 @@ class GeneralScheduleView extends React.Component {
 module.exports = GeneralScheduleView;
 ```
 
-Again, this code has been heavily simplified for ease of learning, but we can now add and change some code at line 48 to connect this [container component](#containercomponents) to the Redux store:
+Again, this code has been heavily simplified for ease of learning, but we can now add and change some code at line 48 to connect this [container component](/tutorials/building-the-f8-app/data/#containercomponents) to the Redux store:
 
 ```js
 /* from js/tabs/schedule/GeneralScheduleView.js */

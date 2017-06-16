@@ -10,9 +10,7 @@ permalink: /tutorials/building-the-f8-app/relay/
 
 When we originally planned the app [we discussed the choice of data layer](tutorials/building-the-f8-app/planning/#data-access-with-react-native) and compared [Redux](https://github.com/rackt/redux) (which was eventually used), with an alternative Facebook Open Source project called [Relay](https://facebook.github.io/relay/).
 
-At the time, Redux was chosen because it offered the simpler data impementation of the two, and was quicker and easier to integrate with our Parse data storage.
-
-Once the app was released to the [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066) app stores, we wanted to revisit that choice, and look at how Relay could work with our app.
+At the time, Redux was chosen because it offered the simpler data implementation of the two, and was quicker and easier to integrate with our Parse data storage.
 
 ### Gradual Evolution
 

@@ -13,7 +13,7 @@ intro: >
 
 One of the major highlights of React Native is its simplicity around creating apps that can run on iOS and Android, without having to repeat most of the app logic in different native languages.
 
-However, rather than "write once, run anywhere", the philosophy of React Native has always been "learn once, write anywhere". This subtle differences means that React Native apps should be tailored for each platform, rather than being identical everywhere.
+However, rather than "write once, run anywhere", the philosophy of React Native has always been "learn once, write anywhere". This subtle difference means that React Native apps should be tailored for each platform, rather than being identical everywhere.
 
 From a UI perspective, as platforms have somewhat different visual styles, UI paradigms, or even technical capabilities, it makes sense to start with a common UI foundation, and then tweak it for each platform.
 
@@ -25,7 +25,7 @@ In this and subsequent tutorials, we're going to be diving into the code of the 
 
 Before you write any React code, there is a very important concept about it that instructs how you think about every piece of a React app. This concept is that **your code should re-use as much as possible**.
 
-This might seem at odds with the React *Native* idea of tailoring the visually app for each platform - where the temptation might be to create separate iOS and Android visual components - but it simply requires that the various parts of the React Native app still share as much overlap as possible.
+This might seem at odds with the React *Native* idea of tailoring the app visually for each platform - where the temptation might be to create separate iOS and Android visual components - but it simply requires that the various parts of the React Native app still share as much overlap as possible.
 
 When considering visual components in a React Native app, the key to success is to use platform abstractions. The developer and the designer determine a list of re-usable components in the app - such as "button", "container", "list row", "header", etc. - and only where needed do these components deviate from the common version.
 
@@ -33,7 +33,7 @@ Of course, some components are more complex than others, so let's explore some d
 
 ### Varying Smaller Components
 
-Here is at an example from the F8 app:
+Here is an example from the F8 app:
 
 ![iOS and Android Segmented Controls Comparison]({{ site.baseurl }}/static/images/iOS vs Android Segmented Controls@3x.png)
 
@@ -327,14 +327,14 @@ that are part of the `TabBarItem` that is tapped to make them visible.
 
 When you're building any kind of app, mobile or web, it can be painful to quickly tweak and adjust UI elements. If an engineer and designer are working together, this can slow the whole process down.
 
-React Native contains a [live reload](http://facebook.github.io/react-native/docs/debugging.html#live-reload) debugging feature which triggers a refresh of the app anytime the JavaScript is changed. This can cut down on the design iteration process - make a change to a components styles, and save, and you'll see the change instantly.
+React Native contains a [live reload](http://facebook.github.io/react-native/docs/debugging.html#live-reload) debugging feature which triggers a refresh of the app anytime the JavaScript is changed. This can cut down on the design iteration process - make changes to a component's style, then save, and you'll see the changes instantly.
 
 But what about a component that looks different under multiple conditions? For example, a button component might have a default style, but also styles for tapped, busy doing a task, completed a task, etc.
 
 To avoid having to interact with the app each time, we built in a visual debugging `Playground` component:
 
 ```js
-/* from js/setup.js */
+/* from js/Playground.js */
 class Playground extends React.Component {
   constructor(props) {
     super(props);

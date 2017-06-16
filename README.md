@@ -1,4 +1,4 @@
-# makeitopen.com: Open Source Learning
+# [makeitopen.com](http://makeitopen.com): Open Source Learning
 This is the source repo for the [makeitopen.com](http://makeitopen.com) Open Source learning site run by Facebook.
 
 ## License
