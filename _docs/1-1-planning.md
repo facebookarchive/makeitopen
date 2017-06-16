@@ -54,7 +54,7 @@ With React Native as our chosen app framework, and Redux used for the data layer
 * Unit tests for the [Jest framework](http://facebook.github.io/jest/) were written for more complex functions.
 * We used the [React Native Facebook SDK](https://github.com/facebook/react-native-fbsdk) for quick iOS and Android access to Facebook integration.
 * We used Facebook's [Nuclide](http://nuclide.io/) editor on OSX with its [built-in support for React Native](http://nuclide.io/docs/platforms/react-native/).
-* We used use git for version control, and stored progress on [GitHub](https://github.com/fbsamples/f8app).
+* We used git for version control, and stored progress on [GitHub](https://github.com/fbsamples/f8app).
 
 There are some additional small packages we used that we'll highlight as we go through each tutorial.
 
