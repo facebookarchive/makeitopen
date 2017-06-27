@@ -12,6 +12,8 @@ When we originally planned the app [we discussed the choice of data layer](tutor
 
 At the time, Redux was chosen because it offered the simpler data implementation of the two, and was quicker and easier to integrate with our Parse data storage.
 
+Once the app was released to the [iOS](https://itunes.apple.com/us/app/f8/id853467066) and [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) app stores, we wanted to revisit that choice, and look at how Relay could work with our app.
+
 ### Gradual Evolution
 
 With traditional native app development, the choice to switch the data layer would usually lead to a whole-scale rewrite of the entire app, where the existing functionality would be entirely swapped out.
@@ -34,7 +36,7 @@ With Relay, each React component specifies exactly what data it depends on, usin
 
 Given the ability to progressively change a small part of a React Native app, we chose, as a kind of proof-of-concept, to swap Redux for Relay in the Info View of the F8 app:
 
-![Info view of F8 iOS app](static/images/info_view.png)
+![Info view of F8 iOS app](/static/images/info_view.png/) 
 
 This part of the app is pretty much entirely separate from the rest, with largely non-interactive content, making it an ideal place to start.
 
