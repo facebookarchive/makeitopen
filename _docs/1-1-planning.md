@@ -41,7 +41,7 @@ What about [GraphQL](http://graphql.org/) and [Relay](https://facebook.github.io
 
 GraphQL server setup was also relatively complex for one person with a short deadline. Bearing in mind that when the app was being developed for release in the app stores, we wanted the simplest and fastest options, what other choices were there?
 
-Given the above, [Redux](https://github.com/rackt/redux) was the best choice for the app. Redux offers a simple implementation of the [Flux architecture](https://facebook.github.io/flux/), providing more control over how the data can be stored and cached, essentially enabling the app to sync one-way from Parse Cloud.
+Given the above, [Redux](https://github.com/reactjs/redux) was the best choice for the app. Redux offers a simple implementation of the [Flux architecture](https://facebook.github.io/flux/), providing more control over how the data can be stored and cached, essentially enabling the app to sync one-way from Parse Cloud.
 
 For the app's store version, Redux provided the best balance of functionality and ease of use for this app. After the app was released, we revisited this and built some usage of Relay and GraphQL into parts of the app, and we'll cover that transition in the [Relay and GraphQL Addendum](tutorials/building-the-f8-app/relay/).
 
