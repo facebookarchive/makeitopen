@@ -36,7 +36,7 @@ With Relay, each React component specifies exactly what data it depends on, usin
 
 Given the ability to progressively change a small part of a React Native app, we chose, as a kind of proof-of-concept, to swap Redux for Relay in the Info View of the F8 app:
 
-![Info view of F8 iOS app](static/images/info_view.png)
+![Info view of F8 iOS app](/static/images/info_view.png/) 
 
 This part of the app is pretty much entirely separate from the rest, with largely non-interactive content, making it an ideal place to start.
 
