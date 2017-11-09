@@ -1,0 +1,382 @@
+/* your custom css */
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}
+
+body {
+  font: normal 18px/1.4em 'Lato', Calibri, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.fixedHeaderContainer header h2,
+.fixedHeaderContainer header h3,
+.fixedHeaderContainer header h4 {
+  font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 900;
+}
+
+a {
+  color: #393939;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  background: $primaryColor;
+  color: white;
+}
+
+code,
+.mainContainer .wrapper a code,
+.mainContainer .wrapper a:focus code {
+  color: #66ab27;
+  font-weight: 400;
+  font-family: Hack, monospace;
+}
+a code {
+  text-decoration: none;
+  border-bottom: none;
+}
+pre code {
+  font-family: Hack, monospace;
+  border-left: 4px solid #005469;
+}
+video {
+  height: auto;
+  max-width: 100%;
+}
+.mainContainer .wrapper p a {
+  border-bottom: 1px solid $splashColor;
+}
+
+.homeSplash {
+  background: $primaryColor no-repeat center center;
+  background-size: contain;
+}
+
+.homeSplash .homeSplashFade {
+  background-color: rgba($primaryColor, 0.2);
+  background-image: linear-gradient(
+    to bottom, $splashColor 0%, $splashFade 100%
+  );
+  color: white;
+  padding: 0 4vw;
+}
+
+.projectTitle {
+  text-shadow: 0px 0px 10px $splashTextShadow;
+  border: 0;
+  color: inherit;
+  font-weight: 300;
+}
+
+.splashButton {
+  border: 1px solid white;
+  color: inherit;
+}
+
+.splashButton:hover {
+  background: white;
+  color: $primaryColor;
+}
+
+.navPusher {
+  padding-top: 0px;
+  border-top: 52px solid $primaryColor;
+}
+
+@media only screen and (min-width: 1024px) {
+  .navPusher {
+    padding-top: 0px;
+  }
+}
+
+nav.toc .toggleNav .navGroup.navGroupActive {
+  background: $primaryColor;
+}
+
+nav.toc .toggleNav ul li a.navItem {
+  color: #fff;
+  border-left: 2px solid transparent;
+}
+
+nav.toc .toggleNav ul li a.navItemActive {
+  font-weight: normal;
+  border-left: 2px solid white;
+}
+
+nav.toc .toggleNav ul li a:focus,
+nav.toc .toggleNav ul li a:hover {
+  border-left: 2px solid #fff;
+}
+
+.docsNavContainer nav.toc .navWrapper {
+  padding: 10px;
+}
+
+nav.toc .toggleNav ul li a {
+  padding: 5px 0 2px 8px;
+}
+
+nav.toc .toggleNav .navGroup h3 {
+  border-bottom: 1px solid white;
+}
+
+nav.toc .toggleNav {
+  background: $primaryColor;
+}
+
+.postPlugins {
+  align-items: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+  margin: -10px;
+}
+
+.postPlugins div {
+  height: 20px;
+  flex: 0 1;
+  margin: 10px;
+}
+
+.postPlugins div .fb-like span {
+  display: block;
+}
+
+.container .wrapper h4 {
+  margin-bottom: 20px;
+}
+
+.container .gridBlock .blockContent p {
+  padding: 3px;
+}
+
+.container .gridBlock .blockContent hr {
+  height: 0px;
+  border: 0px;
+  border-top: 1px solid $primaryColor;
+}
+
+.container .gridBlock .blockContent h4 span {
+  display: block;
+  color: #000;
+  font-size: 120%;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.container .gridBlock .blockContent h4 a {
+  display: block;
+  color: #000;
+  font-size: 150%;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 1.2em;
+  border-bottom: 1px solid $splashColor;
+}
+
+.container .gridBlock .blockContent h4 a:hover,
+.container .gridBlock .blockContent h4 a:focus {
+  color: #fff;
+}
+
+.container .gridBlock .blockContent p a {
+  font-size: 85%;
+}
+
+.container .gridBlock .appendixContent h4 span {
+  font-size: 90%;
+}
+
+.container .gridBlock .appendixContent h4 a {
+  font-size: 100%;
+  border-bottom: none;
+}
+
+.container.paddingBottom {
+  padding-bottom: 20px;
+}
+.container.paddingTop {
+  padding-top: 20px;
+}
+
+.mainContainer .wrapper p {
+  max-width: 100rem;
+}
+
+.tutorialContent p a {
+  color: $primaryColor;
+  font-weight: 900;
+}
+.tutorialContent p a:hover,
+.tutorialContent p a:focus {
+  color: #fff;
+}
+
+#fb_oss a {
+  border: 0;
+}
+
+@media only screen and (min-width: 1024px) {
+  .footerContainer .footerWrapper .footerBlocks {
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .footerContainer .footerWrapper .footerBlocks .footerSection {
+    box-sizing: border-box;
+    flex: 1 1 25%;
+    min-width: 275px;
+    padding: 0px 20px;
+  }
+
+  .footerContainer .footerWrapper .footerBlocks .rightAlign {
+    margin-left: auto;
+    padding-left: 60px;
+    text-align: right;
+  }
+
+  .footerContainer .footerWrapper .footerBlocks .fbOpenSourceFooter {
+    max-width: 25%;
+  }
+}
+
+.footerContainer {
+  background: white;
+  color: $primaryColor;
+  padding: 0 4vw;
+  text-align: left;
+}
+
+.footerWrapper {
+  border-top: 1px solid $primaryColor;
+  padding: 0;
+}
+
+.footerWrapper .footerBlocks {
+  margin: 0 0px;
+  padding: 10px 0;
+  max-width: 100%;
+}
+
+.footerWrapper .footerBlocks .footerSection {
+  font-size: 14px;
+  padding: 0px;
+}
+
+.footerWrapper .footerBlocks .footerSection a {
+  border: 0;
+  color: inherit;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+.footerLink {
+  padding-right: 20px;
+}
+
+.footerLink:hover,
+.footerLink:focus {
+  background: white;
+  color: $splashColor;
+}
+
+.footerWrapper .footerBlocks .fbOpenSourceFooter {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.footerWrapper .footerBlocks .fbOpenSourceFooter .facebookOSSLogoSvg {
+  flex: 0 0 31px;
+  height: 30px;
+  margin-right: 10px;
+  width: 31px;
+}
+.footerWrapper .footerBlocks .fbOpenSourceFooter .facebookOSSLogoSvg path {
+  fill: $primaryColor;
+}
+
+.footerWrapper .footerBlocks .fbOpenSourceFooter .facebookOSSLogoSvg .middleRing {
+  opacity: 0.7;
+}
+
+.footerWrapper .footerBlocks .fbOpenSourceFooter .facebookOSSLogoSvg .innerRing {
+  opacity: 0.45;
+}
+
+.footerWrapper .footerBlocks .fbOpenSourceFooter h2 {
+  display: block;
+  font-weight: 900;
+  line-height: 1em;
+}
+
+.featuredTech {
+  background: $primaryColor;
+  box-sizing: border-box;
+  color: white;
+  max-width: 100%;
+  padding: 20px;
+}
+.featuredTech .features {
+    display: block;
+    margin: -20px 0px 0;
+    max-width: 100%;
+}
+.featuredTech .features .featuredGroup {
+  box-sizing: border-box;
+  padding: 20px 0;
+  width: 100%;
+}
+.featuredTech .features .featuredGroup h3 {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+}
+.featuredTech .blockHeader {
+  border-bottom: 1px solid white;
+}
+.featuredTech .features .featuredGroup ul {
+  padding: 0;
+}
+.featuredTech .features .featuredGroup li {
+  list-style: none;
+  padding: 0;
+}
+.featuredTech .features .featuredGroup li a {
+  border: none;
+  color: white;
+  font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+.featuredTech .features {
+  display: flex;
+  flex-flow: row wrap;
+  margin: -20px -20px 0;
+  max-width: 100%;
+}
+.featuredTech .features .featuredGroup {
+  box-sizing: border-box;
+  flex: 1 1 25%;
+  max-width: 25%;
+  min-width: 275px;
+  padding: 20px;
+}
