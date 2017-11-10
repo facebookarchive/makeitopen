@@ -13,7 +13,7 @@ const siteConfig = {
   tagline: "Building the F8 2016 App",
   url: "http://makeitopen.com" /* your website url */,
   baseUrl: "/" /* base url for your project */,
-  projectName: "makeitopen.com",
+  projectName: "makeitopen",
   headerLinks: [
     { languages: true },
   ],
