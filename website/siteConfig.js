@@ -14,6 +14,7 @@ const siteConfig = {
   url: "http://makeitopen.com" /* your website url */,
   baseUrl: "/" /* base url for your project */,
   projectName: "makeitopen",
+  cname: "makeitopen.com",
   headerLinks: [
     { languages: true },
   ],
