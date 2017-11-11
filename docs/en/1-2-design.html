@@ -1,0 +1,353 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Designing an App for Multiple Platforms · makeitopen.com</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Designing an App for Multiple Platforms · makeitopen.com"/><meta property="og:type" content="website"/><meta property="og:url" content="http://makeitopen.com/index.html"/><meta property="og:description" content="*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.*"/><link rel="shortcut icon" href="/images/favicon_junction.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-savanna-dark.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/images/logo.png"/><h2 class="headerTitle">makeitopen.com</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Building the F8 App</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Building the F8 App</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/1-1-planning.html">Part 1: Planning The App</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/1-2-design.html">Part 2: Designing an App for Multiple Platforms</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-3-data.html">Part 3: Integrating Data with React Native</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-4-testing.html">Part 4: Testing a React Native App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A1-local-setup.html">Appendix I: Running the App Locally</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A2-relay.html">Appendix II: Using Relay and GraphQL</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A3-windows.html">Appendix III: Porting the F8 App To Windows</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A4-translations.html">Appendix IV: Makeitopen in Other Languages</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/makeitopen/edit/master/docs/1-2-design.md" target="_blank">Edit</a><h1>Designing an App for Multiple Platforms</h1></header><article><div><span><p><em>This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for Android and iOS.</em></p>
+<p>One of the major highlights of React Native is its simplicity around creating apps that can run on iOS and Android, without having to repeat most of the app logic in different native languages.</p>
+<p>However, rather than &quot;write once, run anywhere&quot;, the philosophy of React Native has always been &quot;learn once, write anywhere&quot;. This subtle difference means that React Native apps should be tailored for each platform, rather than being identical everywhere.</p>
+<p>From a UI perspective, as platforms have somewhat different visual styles, UI paradigms, or even technical capabilities, it makes sense to start with a common UI foundation, and then tweak it for each platform.</p>
+<h4><a class="anchor" aria-hidden="true" name="before-we-start"></a><a href="#before-we-start" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Before We Start</h4>
+<p>In this and subsequent tutorials, we're going to be diving into the code of the app itself, so you should <a href="https://github.com/fbsamples/f8app">grab the source code</a> and clone it somewhere you can conveniently browse. You could also follow <a href="tutorials/building-the-f8-app/local-setup/">our setup instructions</a> to use this to run the app yourself locally, but for the purposes of this tutorial, you just need to see the source code itself.</p>
+<h3><a class="anchor" aria-hidden="true" name="the-react-native-mindset"></a><a href="#the-react-native-mindset" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The React Native Mindset</h3>
+<p>Before you write any React code, there is a very important concept about it that instructs how you think about every piece of a React app. This concept is that <strong>your code should re-use as much as possible</strong>.</p>
+<p>This might seem at odds with the React <em>Native</em> idea of tailoring the app visually for each platform - where the temptation might be to create separate iOS and Android visual components - but it simply requires that the various parts of the React Native app still share as much overlap as possible.</p>
+<p>When considering visual components in a React Native app, the key to success is to use platform abstractions. The developer and the designer determine a list of re-usable components in the app - such as &quot;button&quot;, &quot;container&quot;, &quot;list row&quot;, &quot;header&quot;, etc. - and only where needed do these components deviate from the common version.</p>
+<p>Of course, some components are more complex than others, so let's explore some different components in the F8 app.</p>
+<h3><a class="anchor" aria-hidden="true" name="varying-smaller-components"></a><a href="#varying-smaller-components" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Varying Smaller Components</h3>
+<p>Here is an example from the F8 app:</p>
+<p><img src="/images/iOS_vs_Android_Segmented_Controls@3x.png" alt="iOS and Android Segmented Controls Comparison"></p>
+<p>On iOS, the tab segmentation controls use a rounded button style familiar to iOS users, while the Android version of the same component uses an underline style that better matches that platform. Both controls, however, perform the exact same function.</p>
+<p>So, visually they're a little bit different, but otherwise it's worth repeating that they should <strong>re-use as much code as possible</strong>.</p>
+<p>For a small component like this, we have a large amount of cross-platform overlap in the logic involved - it is a component which displays text buttons, each with 'hover' and 'active' styles, and the only difference is that slight visual variation - and so the best approach is to use a single component, and then use control statements when necessary.</p>
+<p>Here's the above component as an example (from <code>&lt;F8SegmentedControl&gt;</code>):</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/common/F8SegmentedControl.js */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Segment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  props: {
+    <span class="hljs-attr">value</span>: string;
+    isSelected: boolean;
+    selectionColor: string;
+    onPress: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">void</span>;
+  };
+
+render() {
+    <span class="hljs-keyword">var</span> selectedButtonStyle;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.isSelected) {
+      selectedButtonStyle = { <span class="hljs-attr">borderColor</span>: <span class="hljs-keyword">this</span>.props.selectionColor };
+    }
+    <span class="hljs-keyword">var</span> deselectedLabelStyle;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.props.isSelected &amp;&amp; Platform.OS === <span class="hljs-string">'android'</span>) {
+      deselectedLabelStyle = styles.deselectedLabel;
+    }
+    <span class="hljs-keyword">var</span> title = <span class="hljs-keyword">this</span>.props.value &amp;&amp; <span class="hljs-keyword">this</span>.props.value.toUpperCase();
+
+    <span class="hljs-keyword">var</span> accessibilityTraits = [<span class="hljs-string">'button'</span>];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.isSelected) {
+      accessibilityTraits.push(<span class="hljs-string">'selected'</span>);
+    }
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">TouchableOpacity</span>
+        <span class="hljs-attr">accessibilityTraits</span>=<span class="hljs-string">{accessibilityTraits}</span>
+        <span class="hljs-attr">activeOpacity</span>=<span class="hljs-string">{0.8}</span>
+        <span class="hljs-attr">onPress</span>=<span class="hljs-string">{this.props.onPress}</span>
+        <span class="hljs-attr">style</span>=<span class="hljs-string">{[styles.button,</span> <span class="hljs-attr">selectedButtonStyle</span>]}&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Text</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{[styles.label,</span> <span class="hljs-attr">deselectedLabelStyle</span>]}&gt;</span>
+          {title}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Text</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">TouchableOpacity</span>&gt;</span></span>
+    );
+  }
+}
+</code></pre>
+<p>Here we're simply applying different styles depending on which platform the code runs (using React Native's <a href="https://facebook.github.io/react-native/docs/platform-specific-code.html#platform-module">Platform module</a>). Both tab buttons receive some common styles, but then they diverge (again from <code>&lt;F8SegmentedControl&gt;</code>):</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/common/F8SegmentedControl.js */</span>
+<span class="hljs-keyword">var</span> styles = F8StyleSheet.create({
+  <span class="hljs-attr">container</span>: {
+    <span class="hljs-attr">flexDirection</span>: <span class="hljs-string">'row'</span>,
+    <span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">'transparent'</span>,
+    <span class="hljs-attr">ios</span>: {
+      <span class="hljs-attr">paddingBottom</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">justifyContent</span>: <span class="hljs-string">'center'</span>,
+      <span class="hljs-attr">alignItems</span>: <span class="hljs-string">'center'</span>,
+    },
+    <span class="hljs-attr">android</span>: {
+      <span class="hljs-attr">paddingLeft</span>: <span class="hljs-number">60</span>,
+    },
+  },
+  <span class="hljs-attr">button</span>: {
+    <span class="hljs-attr">borderColor</span>: <span class="hljs-string">'transparent'</span>,
+    <span class="hljs-attr">alignItems</span>: <span class="hljs-string">'center'</span>,
+    <span class="hljs-attr">justifyContent</span>: <span class="hljs-string">'center'</span>,
+    <span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">'transparent'</span>,
+    <span class="hljs-attr">ios</span>: {
+      <span class="hljs-attr">height</span>: HEIGHT,
+      <span class="hljs-attr">paddingHorizontal</span>: <span class="hljs-number">20</span>,
+      <span class="hljs-attr">borderRadius</span>: HEIGHT / <span class="hljs-number">2</span>,
+      <span class="hljs-attr">borderWidth</span>: <span class="hljs-number">1</span>,
+    },
+    <span class="hljs-attr">android</span>: {
+      <span class="hljs-attr">paddingBottom</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">paddingHorizontal</span>: <span class="hljs-number">10</span>,
+      <span class="hljs-attr">borderBottomWidth</span>: <span class="hljs-number">3</span>,
+      <span class="hljs-attr">marginRight</span>: <span class="hljs-number">10</span>,
+    },
+  },
+  <span class="hljs-attr">label</span>: {
+    <span class="hljs-attr">letterSpacing</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">fontSize</span>: <span class="hljs-number">12</span>,
+    <span class="hljs-attr">color</span>: <span class="hljs-string">'white'</span>,
+  },
+  <span class="hljs-attr">deselectedLabel</span>: {
+    <span class="hljs-attr">color</span>: <span class="hljs-string">'rgba(255, 255, 255, 0.7)'</span>,
+  },
+});
+</code></pre>
+<p>Here we're using an adapted version of the <a href="https://facebook.github.io/react-native/docs/stylesheet.html">React Native <code>StyleSheet</code> API</a> that we've wrapped with some addition platform specific switching:</p>
+<pre><code class="hljs css js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span>(<span class="hljs-params">styles: Object</span>): </span>{[name: string]: number} {
+  <span class="hljs-keyword">const</span> platformStyles = {};
+  <span class="hljs-built_in">Object</span>.keys(styles).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> {ios, android, ...style} = {...styles[name]};
+    <span class="hljs-keyword">if</span> (ios &amp;&amp; Platform.OS === <span class="hljs-string">'ios'</span>) {
+      style = {...style, ...ios};
+    }
+    <span class="hljs-keyword">if</span> (android &amp;&amp; Platform.OS === <span class="hljs-string">'android'</span>) {
+      style = {...style, ...android};
+    }
+    platformStyles[name] = style;
+  });
+  <span class="hljs-keyword">return</span> StyleSheet.create(platformStyles);
+}
+</code></pre>
+<p>In this <code>F8StyleSheet</code> function we parse a supplied object (the <code>styles</code> object from the previous code sample), and if we find a key called <code>ios</code> or <code>android</code> which matches the current platform the app is running on, we use those styles, otherwise they're ignored. This gives us another simple example of the React idea of reducing code duplication by reusing as much of the common styling code as possible.</p>
+<p>So now, we can reuse this component in the app, and it will use appropriate styles for iOS or Android.</p>
+<h3><a class="anchor" aria-hidden="true" name="separating-complex-differences"></a><a href="#separating-complex-differences" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Separating Complex Differences</h3>
+<p>When both platform implementations of a component share less logic and deviate in more than just appearance, we need a different approach. The example here is of the top-level menu navigation in the app:</p>
+<p><img src="/images/iOS_vs_Android@3x.png" alt="iOS and Android Main Navigation Comparison"></p>
+<p>As you can see, the iOS version uses fixed tabs at the bottom of the screen, whereas the Android version implements a hamburger-type menu with a slide out nav. There are significant differences in terms of extra animation, styling, and even menu items themselves. The Android app, for example, might contain more nav menu options, such as a logout option.</p>
+<p>You <em>could</em> continue to use a single component for all of this, but that component's logic would be full of a large number of control statements, and it would rapidly become very difficult to understand.</p>
+<p>Instead, we can take advantage of React Native's built-in <a href="http://facebook.github.io/react-native/docs/platform-specific-code.html#platform-specific-extensions">Platform specific extensions</a>. This lets us create two separate components, in this case one named <code>F8TabsView.ios.js</code>, and another named <code>F8TabsView.android.js</code> - React Native will auto-detect and load the correct component for each platform based on this extension naming.</p>
+<h4><a class="anchor" aria-hidden="true" name="built-in-ui-components"></a><a href="#built-in-ui-components" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Built-in UI Components</h4>
+<p>Within each <code>FBTabsView</code> component, we can also reuse some built-in React Native UI elements. The Android version uses <a href="http://facebook.github.io/react-native/docs/drawerlayoutandroid.html"><code>DrawerLayoutAndroid</code></a> (which, as you can tell by the component name, is only available in Android apps):</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/F8TabsView.android.js */</span>
+render() {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">DrawerLayoutAndroid</span>
+      <span class="hljs-attr">ref</span>=<span class="hljs-string">"drawer"</span>
+      <span class="hljs-attr">drawerWidth</span>=<span class="hljs-string">{300}</span>
+      <span class="hljs-attr">drawerPosition</span>=<span class="hljs-string">{DrawerLayoutAndroid.positions.Left}</span>
+      <span class="hljs-attr">renderNavigationView</span>=<span class="hljs-string">{this.renderNavigationView}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{styles.content}</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{this.props.activeTab}</span>&gt;</span>
+        {this.renderContent()}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">DrawerLayoutAndroid</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>The <code>renderNavigationView</code> prop passed into <code>DrawerLayoutAndroid</code> tells that component to look for a <code>renderNavigationView()</code> function in the current class. This function should return the content that will be rendered inside of the 'open' drawer. In this case, we're going to render a <a href="http://facebook.github.io/react-native/docs/scrollview.html"><code>ScrollView</code></a> component, filled with custom <code>MenuItem</code> components (see <a href="https://github.com/fbsamples/f8app/blob/master/js/tabs/MenuItem.js"><code>MenuItem.js</code></a>):</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/F8TabsView.android.js */</span>
+renderNavigationView() {
+  ...
+  return(
+    &lt;ScrollView style={styles.drawer}&gt;
+      &lt;MenuItem
+        title="Schedule"
+        selected={this.props.activeTab === 'schedule'}
+        onPress={this.onTabSelect.bind(this, 'schedule')}
+        icon={scheduleIcon}
+        selectedIcon={scheduleIconSelected}
+      /&gt;
+      &lt;MenuItem
+        title="My F8"
+        selected={this.props.activeTab === 'my-schedule'}
+        onPress={this.onTabSelect.bind(this, 'my-schedule')}
+        icon={require('./schedule/img/my-schedule-icon.png')}
+        selectedIcon={require('./schedule/img/my-schedule-icon-active.png')}
+      /&gt;
+      &lt;MenuItem
+        title="Map"
+        selected={this.props.activeTab === 'map'}
+        onPress={this.onTabSelect.bind(this, 'map')}
+        icon={require('./maps/img/maps-icon.png')}
+        selectedIcon={require('./maps/img/maps-icon-active.png')}
+      /&gt;
+      &lt;MenuItem
+        title="Notifications"
+        selected={this.props.activeTab === 'notifications'}
+        onPress={this.onTabSelect.bind(this, 'notifications')}
+        badge={this.state.notificationsBadge}
+        icon={require('./notifications/img/notifications-icon.png')}
+        selectedIcon={require('./notifications/img/notifications-icon-active.png')}
+      /&gt;
+      &lt;MenuItem
+        title="Info"
+        selected={this.props.activeTab === 'info'}
+        onPress={this.onTabSelect.bind(this, 'info')}
+        icon={require('./info/img/info-icon.png')}
+        selectedIcon={require('./info/img/info-icon-active.png')}
+      /&gt;
+    &lt;/ScrollView&gt;
+  );
+}
+</code></pre>
+<p>By comparison the iOS version uses a different built-in component directly in the <code>render()</code> function, <a href="http://facebook.github.io/react-native/docs/tabbarios.html"><code>TabBarIOS</code></a>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/F8TabsView.ios.js */</span>
+render() {
+  <span class="hljs-keyword">var</span> scheduleIcon = <span class="hljs-keyword">this</span>.props.day === <span class="hljs-number">1</span>
+    ? <span class="hljs-built_in">require</span>(<span class="hljs-string">'./schedule/img/schedule-icon-1.png'</span>)
+    : <span class="hljs-built_in">require</span>(<span class="hljs-string">'./schedule/img/schedule-icon-2.png'</span>);
+  <span class="hljs-keyword">var</span> scheduleIconSelected = <span class="hljs-keyword">this</span>.props.day === <span class="hljs-number">1</span>
+    ? <span class="hljs-built_in">require</span>(<span class="hljs-string">'./schedule/img/schedule-icon-1-active.png'</span>)
+    : <span class="hljs-built_in">require</span>(<span class="hljs-string">'./schedule/img/schedule-icon-2-active.png'</span>);
+  <span class="hljs-keyword">return</span> (
+    &lt;TabBarIOS tintColor={F8Colors.darkText}&gt;
+      &lt;TabBarItemIOS
+        title="Schedule"
+        selected={this.props.activeTab === 'schedule'}
+        onPress={this.onTabSelect.bind(this, 'schedule')}
+        icon={scheduleIcon}
+        selectedIcon={scheduleIconSelected}&gt;
+        &lt;GeneralScheduleView
+          navigator={this.props.navigator}
+          onDayChange={this.handleDayChange}
+        /&gt;
+      &lt;/TabBarItemIOS&gt;
+      &lt;TabBarItemIOS
+        title="My F8"
+        selected={this.props.activeTab === 'my-schedule'}
+        onPress={this.onTabSelect.bind(this, 'my-schedule')}
+        icon={require('./schedule/img/my-schedule-icon.png')}
+        selectedIcon={require('./schedule/img/my-schedule-icon-active.png')}&gt;
+        &lt;MyScheduleView
+          navigator={this.props.navigator}
+          onJumpToSchedule={() =&gt; this.props.onTabSelect('schedule')}
+        /&gt;
+      &lt;/TabBarItemIOS&gt;
+      &lt;TabBarItemIOS
+        title="Map"
+        selected={this.props.activeTab === 'map'}
+        onPress={this.onTabSelect.bind(this, 'map')}
+        icon={require('./maps/img/maps-icon.png')}
+        selectedIcon={require('./maps/img/maps-icon-active.png')}&gt;
+        &lt;F8MapView /&gt;
+      &lt;/TabBarItemIOS&gt;
+      &lt;TabBarItemIOS
+        title="Notifications"
+        selected={this.props.activeTab === 'notifications'}
+        onPress={this.onTabSelect.bind(this, 'notifications')}
+        badge={this.state.notificationsBadge}
+        icon={require('./notifications/img/notifications-icon.png')}
+        selectedIcon={require('./notifications/img/notifications-icon-active.png')}&gt;
+        &lt;F8NotificationsView navigator={this.props.navigator} /&gt;
+      &lt;/TabBarItemIOS&gt;
+      &lt;TabBarItemIOS
+        title="Info"
+        selected={this.props.activeTab === 'info'}
+        onPress={this.onTabSelect.bind(this, 'info')}
+        icon={require('./info/img/info-icon.png')}
+        selectedIcon={require('./info/img/info-icon-active.png')}&gt;
+        &lt;F8InfoView navigator={this.props.navigator} /&gt;
+      &lt;/TabBarItemIOS&gt;
+    &lt;/TabBarIOS&gt;
+  );
+}
+</code></pre>
+<p>You can see that although the iOS menu takes much of the same data, it has a slightly different structure. Instead of a separate function to create the menu items, they are inserted as children of the parent menu, as <a href="http://facebook.github.io/react-native/docs/tabbarios-item.html#content"><code>TabBarItemIOS</code></a> components.</p>
+<p>These <code>TabBarItem</code>s are essentially equivalent to the Android <code>MenuItem</code> components - the difference being that in the Android component we defined a single main <a href="http://facebook.github.io/react-native/docs/view.html#content"><code>View</code> component</a>:</p>
+<pre><code class="hljs css js">&lt;View style={styles.content} key={this.props.activeTab}&gt;
+  {this.renderContent()}
+&lt;/View&gt;
+</code></pre>
+<p>and change it whenever a tab change occurs (using the <code>renderContent()</code> function), while the iOS component has multiple separate <code>View</code> components, for example:</p>
+<pre><code class="hljs css js">&lt;GeneralScheduleView
+  navigator={<span class="hljs-keyword">this</span>.props.navigator}
+  onDayChange={<span class="hljs-keyword">this</span>.handleDayChange}
+/&gt;
+</code></pre>
+<p>that are part of the <code>TabBarItem</code> that is tapped to make them visible.</p>
+<h3><a class="anchor" aria-hidden="true" name="the-design-iteration-cycle"></a><a href="#the-design-iteration-cycle" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Design Iteration Cycle</h3>
+<p>When you're building any kind of app, mobile or web, it can be painful to quickly tweak and adjust UI elements. If an engineer and designer are working together, this can slow the whole process down.</p>
+<p>React Native contains a <a href="http://facebook.github.io/react-native/docs/debugging.html#live-reload">live reload</a> debugging feature which triggers a refresh of the app anytime the JavaScript is changed. This can cut down on the design iteration process - make changes to a component's style, then save, and you'll see the changes instantly.</p>
+<p>But what about a component that looks different under multiple conditions? For example, a button component might have a default style, but also styles for tapped, busy doing a task, completed a task, etc.</p>
+<p>To avoid having to interact with the app each time, we built in a visual debugging <code>Playground</code> component:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/Playground.js */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Playground</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-keyword">constructor</span>(props) {
+    <span class="hljs-keyword">super</span>(props);
+    <span class="hljs-keyword">const</span> content = [];
+    <span class="hljs-keyword">const</span> define = <span class="hljs-function">(<span class="hljs-params">name: string, render: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+      content.push(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Example</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{name}</span> <span class="hljs-attr">render</span>=<span class="hljs-string">{render}</span> /&gt;</span>);
+    };
+
+    var AddToScheduleButton = require('./tabs/schedule/AddToScheduleButton');
+    AddToScheduleButton.__cards__(define);
+    this.state = {content};
+  }
+
+  render() {
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-name">View</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{{paddingTop:</span> <span class="hljs-attr">20</span>}}&gt;</span>
+        {this.state.content}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">View</span>&gt;</span>
+    );
+  }
+}
+</span></code></pre>
+<!---
+TOWATCH: Changes to the Playground component
+-->
+<p>This simply creates an empty view that can be swapped out to load instead of the actual app. When we combine this with some example definitions in one of the UI components, in this case <code>AddToScheduleButton.js</code>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/schedule/AddToScheduleButton.js */</span>
+<span class="hljs-built_in">module</span>.exports.__cards__ = <span class="hljs-function">(<span class="hljs-params">define</span>) =&gt;</span> {
+  <span class="hljs-keyword">let</span> f;
+  setInterval(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> f &amp;&amp; f(), <span class="hljs-number">1000</span>);
+
+  define(<span class="hljs-string">'Inactive'</span>, (state = <span class="hljs-literal">true</span>, update) =&gt;
+    &lt;AddToScheduleButton isAdded={state} onPress={() =&gt; update(!state)} /&gt;);
+
+  define('Active', (state = false, update) =&gt;
+    &lt;AddToScheduleButton isAdded={state} onPress={() =&gt; update(!state)} /&gt;);
+
+  define('Animated', (state = false, update) =&gt; {
+    f = () =&gt; update(!state);
+    return &lt;AddToScheduleButton isAdded={state} /&gt;;
+  });
+};
+</code></pre>
+<p>we can turn the app into a UI preview tool:</p>
+<p><img src="/images/button-playground.gif" alt="UI preview playground in action with a button and three different states"></p>
+<p>The examples defined for this button contain the pressed and not pressed states, and a third example which cycles back and forth between the two, in order to preview any transition animations.</p>
+<p>This lets us really quickly tweak the visual style of basic components while working literally side-by-side with a designer.</p>
+<p>If you want to make use of this, the <code>&lt;Playground&gt;</code> component should be re-usable in any React Native app. To enable it, all we have to do is swap a bit of code in our <code>setup()</code> function to load the <code>&lt;Playground&gt;</code> rather than the actual app:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/setup.js */</span>
+render() {
+  ...
+  return (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{this.state.store}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">F8App</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>becomes</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* in js/setup.js */</span>
+render() {
+  ...
+  return (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{this.state.store}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Playground</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>The <code>&lt;Playground&gt;</code> component itself can be modified to change which other component is being imported within it.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="1-1-planning.html">← Planning The App</a><a class="docs-next button" href="1-3-data.html">Integrating Data with React Native →</a></div></div></div></div><div class="footerContainer"><div id="footer_wrap" class="wrapper footerWrapper"><div class="footerBlocks"><div id="fb_oss" class="footerSection fbOpenSourceFooter"><svg class="facebookOSSLogoSvg" viewBox="0 0 1133.9 1133.9" x="0px" y="0px"><g><path class="logoRing outerRing" d="M 498.3 3.7 c 153.6 88.9 307.3 177.7 461.1 266.2 c 7.6 4.4 10.3 9.1 10.3 17.8 c -0.3 179.1 -0.2 358.3 0 537.4 c 0 8.1 -2.4 12.8 -9.7 17.1 c -154.5 88.9 -308.8 178.1 -462.9 267.5 c -9 5.2 -15.5 5.3 -24.6 0.1 c -153.9 -89.2 -307.9 -178 -462.1 -266.8 C 3 838.8 0 833.9 0 825.1 c 0.3 -179.1 0.2 -358.3 0 -537.4 c 0 -8.6 2.6 -13.6 10.2 -18 C 164.4 180.9 318.4 92 472.4 3 C 477 -1.5 494.3 -0.7 498.3 3.7 Z M 48.8 555.3 c 0 79.9 0.2 159.9 -0.2 239.8 c -0.1 10 3 15.6 11.7 20.6 c 137.2 78.8 274.2 157.8 411 237.3 c 9.9 5.7 17 5.7 26.8 0.1 c 137.5 -79.8 275.2 -159.2 412.9 -238.5 c 7.4 -4.3 10.5 -8.9 10.5 -17.8 c -0.3 -160.2 -0.3 -320.5 0 -480.7 c 0 -8.8 -2.8 -13.6 -10.3 -18 C 772.1 218 633.1 137.8 494.2 57.4 c -6.5 -3.8 -11.5 -4.5 -18.5 -0.5 C 336.8 137.4 197.9 217.7 58.8 297.7 c -7.7 4.4 -10.2 9.2 -10.2 17.9 C 48.9 395.5 48.8 475.4 48.8 555.3 Z"></path><path class="logoRing middleRing" d="M 184.4 555.9 c 0 -33.3 -1 -66.7 0.3 -100 c 1.9 -48 24.1 -86 64.7 -110.9 c 54.8 -33.6 110.7 -65.5 167 -96.6 c 45.7 -25.2 92.9 -24.7 138.6 1 c 54.4 30.6 108.7 61.5 162.2 93.7 c 44 26.5 67.3 66.8 68 118.4 c 0.9 63.2 0.9 126.5 0 189.7 c -0.7 50.6 -23.4 90.7 -66.6 116.9 c -55 33.4 -110.8 65.4 -167.1 96.5 c -43.4 24 -89 24.2 -132.3 0.5 c -57.5 -31.3 -114.2 -64 -170 -98.3 c -41 -25.1 -62.9 -63.7 -64.5 -112.2 C 183.5 621.9 184.3 588.9 184.4 555.9 Z M 232.9 556.3 c 0 29.5 0.5 59.1 -0.1 88.6 c -0.8 39.2 16.9 67.1 50.2 86.2 c 51.2 29.4 102.2 59.2 153.4 88.4 c 31.4 17.9 63.6 18.3 95 0.6 c 53.7 -30.3 107.1 -61.2 160.3 -92.5 c 29.7 -17.5 45 -44.5 45.3 -78.8 c 0.6 -61.7 0.5 -123.5 0 -185.2 c -0.3 -34.4 -15.3 -61.5 -44.9 -79 C 637.7 352.6 583 320.8 527.9 290 c -27.5 -15.4 -57.2 -16.1 -84.7 -0.7 c -56.9 31.6 -113.4 64 -169.1 97.6 c -26.4 15.9 -40.7 41.3 -41.1 72.9 C 232.6 491.9 232.9 524.1 232.9 556.3 Z"></path><path class="logoRing innerRing" d="M 484.9 424.4 c 69.8 -2.8 133.2 57.8 132.6 132 C 617 630 558.5 688.7 484.9 689.1 c -75.1 0.4 -132.6 -63.6 -132.7 -132.7 C 352.1 485 413.4 421.5 484.9 424.4 Z M 401.3 556.7 c -3.4 37.2 30.5 83.6 83 84.1 c 46.6 0.4 84.8 -37.6 84.9 -84 c 0.1 -46.6 -37.2 -84.4 -84.2 -84.6 C 432.2 472.1 397.9 518.3 401.3 556.7 Z"></path></g></svg><h2>Facebook Open Source</h2></div><div class="footerSection rightAlign"><a class="footerLink" href="https://code.facebook.com/projects/" target="_blank">Open Source Projects</a><a class="footerLink" href="https://github.com/facebook/" target="_blank">GitHub</a><a class="footerLink" href="https://twitter.com/fbOpenSource" target="_blank">Twitter</a><a class="footerLink" href="https://github.com/facebook/makeitopen/" target="_blank">Contribute on GitHub</a></div></div></div></div></div><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-14', 'auto');
+              ga('send', 'pageview');
+            </script></body></html>

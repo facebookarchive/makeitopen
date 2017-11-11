@@ -1,0 +1,452 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Integrating Data with React Native · makeitopen.com</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Integrating Data with React Native · makeitopen.com"/><meta property="og:type" content="website"/><meta property="og:url" content="http://makeitopen.com/index.html"/><meta property="og:description" content="*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*"/><link rel="shortcut icon" href="/images/favicon_junction.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-savanna-dark.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/images/logo.png"/><h2 class="headerTitle">makeitopen.com</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Building the F8 App</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Building the F8 App</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/1-1-planning.html">Part 1: Planning The App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-2-design.html">Part 2: Designing an App for Multiple Platforms</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/1-3-data.html">Part 3: Integrating Data with React Native</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-4-testing.html">Part 4: Testing a React Native App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A1-local-setup.html">Appendix I: Running the App Locally</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A2-relay.html">Appendix II: Using Relay and GraphQL</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A3-windows.html">Appendix III: Porting the F8 App To Windows</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A4-translations.html">Appendix IV: Makeitopen in Other Languages</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/makeitopen/edit/master/docs/1-3-data.md" target="_blank">Edit</a><h1>Integrating Data with React Native</h1></header><article><div><span><p><em>This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for <a href="https://play.google.com/store/apps/details?id=com.facebook.f8">Android</a> and <a href="https://itunes.apple.com/us/app/f8/id853467066">iOS</a>.</em></p>
+<p><a href="http://facebook.github.io/react/">React</a>, and by extension <a href="http://facebook.github.io/react-native/">React Native</a>, allows you to build apps without worrying too much about where your data is coming from, so that you can get on with the business of creating the app's UI and its logic.</p>
+<p>In <a href="tutorials/building-the-f8-app/planning/">the first part</a>, we mentioned how we were adopting Parse Server to actually hold the data, and we would use Redux to handle it within the app. In this part, we'll explain how Redux works within React Native apps, and the simple process of connecting Parse Server.</p>
+<p>Before we discuss Redux, let's take a journey to show how React's integration with data evolved to create Redux itself.</p>
+<h3><a class="anchor" aria-hidden="true" name="first-how-do-react-apps-interact-with-data"></a><a href="#first-how-do-react-apps-interact-with-data" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>First, how do React apps interact with data?</h3>
+<p>React is frequently mentioned as being the 'View' in the Model-View-Controller (MVC) app architecture, but it is more subtle than that - React essentially rethinks the overall MVC pattern into something else.</p>
+<p>Let's first examine the idea of MVC architecture:</p>
+<ul>
+<li>The model is the data.</li>
+<li>The view is how the data is presented in an app.</li>
+<li>The controller provides the logic for handling data within the app.</li>
+</ul>
+<p>React lets you create multiple components which are combined to form a view, but each component can also handle the logic that a controller might have provided. For example:</p>
+<pre><code class="hljs css js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    render() {
+        <span class="hljs-comment">// Code that renders the view of the existing data, and</span>
+        <span class="hljs-comment">// potentially a form to trigger changes to that data through</span>
+        <span class="hljs-comment">// the handleSubmit function</span>
+    }
+
+    handleSubmit(e) {
+        <span class="hljs-comment">// Code that modifies the data, like a controller's logic</span>
+    }
+};
+</code></pre>
+<p>Each component in a React app is also aware of two different types of data, each having different roles:</p>
+<ul>
+<li><code>props</code> is data which is passed into a component when it is created, used as the 'options' which you want for any given component. If you had a button component, an example <code>prop</code> would be the text of the button. A component can't change its <code>props</code> (ie. they are immutable).</li>
+<li><code>state</code> is data which can be changed over time by any component. If the button example above was a login/logout button, then the <code>state</code> would store the current login status of the user, and the button would be able to access this, and modify it if they clicked on the button to change their status.</li>
+</ul>
+<p>In order for React apps to reduce repetition, <code>state</code> is intended to be owned by the highest parent component in the app's component hierarchy - something we'll refer to as <strong>container components</strong><a name="containercomponents"></a> elsewhere in this tutorial. In other words, you wouldn't actually put the state in the example button component mentioned above, you'd have it in the parent view which contains the button, and then use <code>props</code> to pass relevant parts of the <code>state</code> down to child components. Because of this, data only flows one-way downwards through any given app, which keeps everything fast and modular.</p>
+<p>If you would like, you can read more about the reasons and thinking behind these decisions in the <a href="https://facebook.github.io/react/docs/thinking-in-react.html">Thinking in React</a> guide from the React site.</p>
+<h3><a class="anchor" aria-hidden="true" name="storing-state"></a><a href="#storing-state" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Storing State</h3>
+<p>To further explain techniques for data use in React apps, Facebook introduced the <a href="https://facebook.github.io/flux/docs/overview.html">Flux architecture</a> which was initially a pattern to implement in your apps, rather than an actual framework to use. We aren't using the <a href="https://github.com/facebook/flux">Flux library</a> in our app, but the framework we are using, Redux, <em>is</em> derived from the Flux architecture, so let's dig into it.</p>
+<p>It expands on React's data relationship by introducing the concept of Stores, containers for the app's <code>state</code> objects, and a new workflow for modifying the <code>state</code> over time:</p>
+<ul>
+<li>Each <strong>Store</strong> in a Flux app has a callback function which is registered with a Dispatcher.</li>
+<li><strong>Views</strong> (basically React components) can trigger <strong>Actions</strong> - basically an object which includes a bunch of data about the thing that just happened (for example, maybe it might include new data that was input into a form in the app) as well as an <strong>action type</strong> - essentially a constant that describes the type of Action being performed.</li>
+<li>The Action is sent to the <strong>Dispatcher</strong>.</li>
+<li>The Dispatcher propagates this Action to all of the various registered Store callbacks.</li>
+<li>If the Store can tell that it was affected by an Action (because the action type is related to its data), it will update itself, and therefore the contained <code>state</code>. Once updated, it'll emit a change event.</li>
+<li>Special Views called <strong>Controller Views</strong> (a fancy term for the <a href="/tutorials/building-the-f8-app/data/#containercomponents">container components</a> we mentioned above) will be listening for these change events, and when they get one, they know they should fetch the new Store data.</li>
+</ul>
+<ul>
+<li>Once fetched they call <a href="https://facebook.github.io/react/docs/component-api.html#setstate"><code>setState()</code></a> with the new data, causing the components inside the View to re-render.</li>
+</ul>
+<p>You can see how Flux helps to enforce the one-way flow of data within React apps, and it makes the data part of React much more elegant and structured.</p>
+<p>We aren't using Flux, so we won't get into more detail in this piece, but if you want to learn more about it, there are some <a href="https://facebook.github.io/flux/docs/todo-list.html">tutorials</a> on the Flux site to read.</p>
+<p>So how is Flux related to Redux, the actual framework we are using in our app?</p>
+<h3><a class="anchor" aria-hidden="true" name="flux-to-redux"></a><a href="#flux-to-redux" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Flux to Redux</h3>
+<p>Redux is a framework implementation of the Flux architecture, but it also strips it down, and there are <a href="https://github.com/reactjs/react-redux">official bindings provided by the react-redux package</a> which make integrating it with React apps much easier.</p>
+<p>There is no dispatcher in Redux, and there is only one Store for the <code>state</code> of the entire app.</p>
+<p>How does the data flow work in Redux? We'll go over this in detail below, but here are the basics:</p>
+<ul>
+<li>React components can cause Actions to be triggered, for example by a button click.</li>
+<li>Actions are an object (containing a <code>type</code> label and other data related to the Action) sent to the Store via the <code>dispatch</code> function.</li>
+<li>The Store then takes the Action payload and sends it to the Reducers along with the current <code>state</code> tree (<a href="https://egghead.io/lessons/javascript-redux-the-single-immutable-state-tree">a <code>state</code> tree</a> is the single object that contains all <code>state</code> data in a particular structure)</li>
+<li>A <strong>Reducer</strong> is a <a href="http://redux.js.org/docs/basics/Reducers.html#handling-actions">pure function</a> that takes the previous <code>state</code> and an Action, then returns a new <code>state</code> based on any changes that the Action might have indicated. A Redux app can have one Reducer, but most apps will end up with several that each handle a different part of the <code>state</code> (we'll discuss this more <a href="/tutorials/building-the-f8-app/data/#reducers">below</a>).</li>
+<li>The Store receives this new <code>state</code> and replaces the current one with it. It's worth noting here that when we say the <code>state</code> is <em>updated</em>, it is technically <em>replaced</em>.</li>
+<li>When the <code>state</code> changes, the Store triggers a <a href="http://redux.js.org/docs/api/Store.html#subscribe">change event</a>.</li>
+<li>Any React components that have <a href="http://redux.js.org/docs/api/Store.html#subscribe">subscribed to the change event</a> make a call to <a href="http://redux.js.org/docs/api/Store.html#getState">retrieve the new <code>state</code> from the Store</a>.</li>
+<li>The components are updated with the new <code>state</code>.</li>
+</ul>
+<p>This flow can be summarized in the below diagram for simplicity:</p>
+<p><img src="/images/redux_flowchart.png" alt="Redux data flow as described above"></p>
+<p>You can see how data follows a clear one-way path, there are no overlapping, opposite direction flows. What this also shows is how clearly separated each part of an app can be - the Store is only concerned with holding the <code>state</code>; the components in the Views are only concerned with displaying data and triggering Actions; Actions are only concerned with indicating that something in the <code>state</code> has changed and including data about what it was; Reducers are only concerned with combining an old <code>state</code> and mutating Actions into a new <code>state</code>. Everything is modular, elegant, and has a clear purpose when it comes to reading the code and understanding it.</p>
+<p>There are some other benefits compared to Flux:</p>
+<ul>
+<li>Actions are the only way to trigger a <code>state</code> change, this centralizes this process away from the UI components, and because they are properly ordered by the Reducer, it prevents race conditions.</li>
+<li><code>state</code> becomes essentially immutable, and a series of <code>state</code>s, each representing an individual change, are created. This gives you a clear and easily traceable <code>state</code> history within your app.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" name="putting-this-together"></a><a href="#putting-this-together" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Putting This Together</h3>
+<p>So now that we've talked about the data flow in the abstract, let's look at how our React Native app puts it all to use, and anything we learned along the way.</p>
+<h4><a class="anchor" aria-hidden="true" name="store"></a><a href="#store" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Store</h4>
+<p>The <a href="http://redux.js.org/docs/basics/Store.html">Redux docs</a> explain very well how to create a simple Store, so we're going to assume you've read the basics there and skip ahead a little bit, including a few extras with our Store.</p>
+<h5><a class="anchor" aria-hidden="true" name="offline-syncing-of-store"></a><a href="#offline-syncing-of-store" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Offline Syncing of Store</h5>
+<p>We've talked before about needing local offline storage of the data, so that the app can operate in low-signal or no-signal conditions (vital at a tech conference!). Luckily, because we're using Redux, there's a very simple module we can use with our app called <a href="https://www.npmjs.com/package/redux-persist">Redux Persist</a>.</p>
+<p>We're also using something called <a href="http://redux.js.org/docs/advanced/Middleware.html"><strong>Middleware</strong></a> with our Store - we'll talk more about some of the things we use this for in the testing section, but basically, middleware allows you to fit extra logic in between the point of an Action being dispatched, and when it reaches the Reducer (this is useful for things like logging, crash reporting, asynchronous APIs, etc.).</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* js/store/configureStore.js */</span>
+<span class="hljs-keyword">var</span> createF8Store = applyMiddleware(...)(createStore);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureStore</span>(<span class="hljs-params">onComplete: ?(</span>) =&gt; <span class="hljs-title">void</span>) </span>{
+  <span class="hljs-keyword">const</span> store = autoRehydrate()(createF8Store)(reducers);
+  persistStore(store, {<span class="hljs-attr">storage</span>: AsyncStorage}, onComplete);
+  ...
+  return store;
+}
+</code></pre>
+<p>The nested function syntax might be a little confusing here (some of these functions <em>return</em> functions that take <em>another</em> function as an argument), so here it is expanded a bit:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* js/store/configureStore.js */</span>
+
+<span class="hljs-keyword">var</span> middlewareWrapper = applyMiddleware(...); <span class="hljs-comment">// 1</span>
+<span class="hljs-keyword">var</span> createF8Store = middlewareWrapper(createStore(reducers)); <span class="hljs-comment">// 2</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureStore</span>(<span class="hljs-params">onComplete: ?(</span>) =&gt; <span class="hljs-title">void</span>) </span>{ <span class="hljs-comment">// 3</span>
+  <span class="hljs-keyword">const</span> rehydrator = autoRehydrate(); <span class="hljs-comment">// 4</span>
+  <span class="hljs-keyword">const</span> store = rehydrator(createF8Store); <span class="hljs-comment">// 5</span>
+  persistStore(store, {<span class="hljs-attr">storage</span>: AsyncStorage}, onComplete); <span class="hljs-comment">// 6</span>
+  ...
+  return store;
+}
+</code></pre>
+<p>Here's what's going on:</p>
+<ol>
+<li><p>We activate the middleware using Redux's <code>applyMiddleware()</code> function (if you want to know more, read the <a href="http://redux.js.org/docs/api/applyMiddleware.html">Redux <code>applyMiddleware</code> docs</a>) which itself <em>returns a function</em> that will 'enhance' the Store object.</p></li>
+<li><p>So we wrap Redux's <a href="http://redux.js.org/docs/api/createStore.html"><code>createStore()</code></a> function (with all the Reducers in our app as an argument) in that enhancer function. <code>createStore()</code> returns a Store object for our app, <code>middlewareWrapper()</code> 'enhances' it with the middleware, and the resulting enhanced Store object is saved in <code>createF8Store</code>.</p></li>
+<li><p>Then we configure our Store object a little bit.</p></li>
+<li><p><a href="https://github.com/rt2zz/redux-persist#autorehydrate">Persist's <code>autoRehydrate()</code></a> is another Store enhancer function (as with <code>applyMiddleware()</code> that returns a function).</p></li>
+<li><p>We pass it our existing Store object. This <code>autoRehydrate()</code> takes a Store object previously saved to local storage and automatically updates the current Store with it's <code>state</code>.</p></li>
+<li><p>The <a href="https://github.com/rt2zz/redux-persist#persiststorestore-config-callback">Persist package's <code>persistStore()</code></a> (which we configure to use <a href="https://facebook.github.io/react-native/docs/asyncstorage.html">React Native's built-in AsyncStorage system</a>) is the function that actually takes care of saving the app's Store to local storage. This simple bit of <code>autoRehydrate()</code> and <code>persistStore()</code> code is all we need to enable offline sync in our app.</p></li>
+</ol>
+<p>Now, whenever the app loses Internet connectivity, the most recent copy of the Store (including any Parse data we had to grab via the API) will still be there waiting in local storage, and from the user's perspective, the app will just work.</p>
+<p>For more information, you can read about the <a href="https://www.npmjs.com/package/redux-persist#basic-usage">technical details of how the Redux Persist package works</a>, but essentially we're done creating our Store.</p>
+<h3><a class="anchor" aria-hidden="true" name="reducers"></a><a href="#reducers" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reducers</h3>
+<p>In the <a href="#flux-to-redux">previous explanation of Redux</a>, we mentioned that it introduced a Reducer object. However in each app there can be multiple Reducers, which are concerned with different parts of the <code>state</code>. As a basic example, in a commenting app you might have a reducer related to login status, and others related to the actual comment data.</p>
+<p>In our F8 app, we store our reducers in <code>js/reducers/</code>. Here's a condensed look at <code>user.js</code>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* js/reducers/user.js */</span>
+...
+import type {Action} <span class="hljs-keyword">from</span> <span class="hljs-string">'../actions/types'</span>;
+...
+
+const initialState = { <span class="hljs-comment">// 1</span>
+  isLoggedIn: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">hasSkippedLogin</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">sharedSchedule</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">id</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-literal">null</span>,
+};
+<span class="hljs-comment">// 2</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">user</span>(<span class="hljs-params">state: State = initialState, action: Action</span>): <span class="hljs-title">State</span> </span>{
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'LOGGED_IN'</span>) {
+    <span class="hljs-keyword">let</span> {id, name, sharedSchedule} = action.data; <span class="hljs-comment">// de-structuring action data</span>
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">hasSkippedLogin</span>: <span class="hljs-literal">false</span>,
+      sharedSchedule,
+      id,
+      name,
+    };
+  }
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'SKIPPED_LOGIN'</span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">hasSkippedLogin</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">sharedSchedule</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-literal">null</span>,
+    };
+  }
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'LOGGED_OUT'</span>) {
+    <span class="hljs-keyword">return</span> initialState;
+  }
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'SET_SHARING'</span>) {
+    <span class="hljs-keyword">return</span> {
+      ...state,
+      <span class="hljs-attr">sharedSchedule</span>: action.enabled,
+    };
+  }
+  <span class="hljs-keyword">return</span> state;
+}
+
+<span class="hljs-built_in">module</span>.exports = user;
+</code></pre>
+<p>As you might be able to tell, this reducer is involved with login/logout operations, as well as user specific option changes. Let's go through it piece by piece.</p>
+<blockquote>
+<p>Note: we're using ES2015's <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">destructuring assignment</a> to assign each of the left side variables to each of the pieces of the data in the list in <code>action.data</code>.</p>
+</blockquote>
+<h5><a class="anchor" aria-hidden="true" name="1-initial-state"></a><a href="#1-initial-state" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Initial State</h5>
+<p>At the beginning we define the initial state, which conforms to a <a href="http://flowtype.org/docs/type-aliases.html">Flow Type Alias</a> (we'll explain more about these in <a href="/docs/en/1-4-testing.html">Testing a React Native app</a>). This <code>initialState</code> defines the values - for the part of the <code>state</code> tree that this Reducer handles - that the app will have on first load, or before any previously synced Store is 'rehydrated' as above.</p>
+<h5><a class="anchor" aria-hidden="true" name="2-the-reducer-function"></a><a href="#2-the-reducer-function" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. The Reducer Function</h5>
+<p>Then, we write the meat of the Reducer, and it is actually relatively simple. <code>state</code> and an Action (which we will <a href="#actions">discuss below</a>) are taken as arguments, with the <code>initialState</code> as a default for <code>state</code> (and we're using <a href="http://flowtype.org/docs/type-annotations.html#_">Flow type annotations</a> for the arguments here, again something we'll cover in <a href="/docs/en/1-4-testing.html">Testing a React Native app</a>). Then, we use the received Action, specifically whatever 'type' label it had, and return a new, changed <code>state</code>.</p>
+<p>For example, if the <code>LOGGED_OUT</code> Action was dispatched (because the user clicked a log-out button), we reset this part of the <code>state</code> tree to <code>initialState</code>. If the <code>LOGGED_IN</code> Action type happens, you can see that the app will use the rest of the data payload, and return a new <code>state</code> that reflects both standard changes like <code>isLoggedIn</code>, but changes that come from user-inputted data, such as <code>name</code>.</p>
+<p>There's one more we'll look at, and that's the <code>SET_SHARING</code> Action type. It is interesting because of the <code>...state</code> notation being used. This is a more compact and readable alternative to <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><code>Object.assign()</code></a> that is part of the <a href="https://facebook.github.io/react-native/docs/javascript-environment.html#javascript-syntax-transformers">Javascript syntax transformers included in React</a> (called the <a href="http://redux.js.org/docs/recipes/UsingObjectSpreadOperator.html">Object Spread Operator</a>), and all it really does in this case is create an object that copies the existing <code>state</code>, and updates the <code>sharedSchedule</code> value.</p>
+<p>You can see how simple and readable this Reducer structure is - define an <code>initialState</code>, build a function that takes a <code>state</code> and an Action, and returns a new <code>state</code>. That's it.</p>
+<p>We don't do anything else in this function because of the one big rule with reducers, and we'll quote the <a href="http://redux.js.org/docs/basics/Reducers.html#handling-actions">Redux docs</a> verbatim:</p>
+<blockquote>
+<p>&quot;Remember that the reducer must be pure. Given the same arguments, it should calculate the next state and return it. No surprises. No side effects. No API calls. No mutations. Just a calculation.&quot;</p>
+</blockquote>
+<p>One other thing to take notice of: looking at <code>js/reducers/notifications.js</code> there's another reference to the <code>LOGGED_OUT</code> action type; we mentioned this before, but it bears repeating - each reducer is always called after an Action is dispatched, so multiple reducers may be updating different parts of the <code>state</code> tree based on the same Action.</p>
+<h3><a class="anchor" aria-hidden="true" name="actions"></a><a href="#actions" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Actions</h3>
+<p>Let's have a closer look at a login-related Action, and see where it sits in the code:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/login.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">skipLogin</span>(<span class="hljs-params"></span>): <span class="hljs-title">Action</span> </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'SKIPPED_LOGIN'</span>,
+  };
+}
+</code></pre>
+<p>This is a really simple <strong>Action creator</strong> (the object returned by this creator function is the actual Action), but it lets you see the basic structure - each Action can simply be an object containing a custom <code>type</code> label. The reducers can then use this <code>type</code> to perform the <code>state</code> updates.</p>
+<p>We can also include some data payload along with the <code>type</code>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/filter.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyTopicsFilter</span>(<span class="hljs-params">topics</span>): <span class="hljs-title">Action</span> </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'APPLY_TOPICS_FILTER'</span>,
+    <span class="hljs-attr">topics</span>: topics,
+  };
+}
+</code></pre>
+<p>The Action creator here receives an argument and inserts it into the Action object.</p>
+<p>We then have some Action creators that perform additional logic as well as returning the Action object. In this example, we're also using a custom Action derivative called a ThunkAction (<a href="http://redux.js.org/docs/recipes/ReducingBoilerplate.html">Redux recommends you create something like this to reduce boilerplate</a>) - this special type of Action creator returns a function not an Action. In this case the <code>logOut()</code> Action creator returns a function which performs some logout related logic, and then dispatches an Action.</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/login.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logOut</span>(<span class="hljs-params"></span>): <span class="hljs-title">ThunkAction</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch</span>) =&gt;</span> {
+    Parse.User.logOut();
+    FacebookSDK.logout();
+    ...
+
+    return dispatch({
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'LOGGED_OUT'</span>,
+    });
+  };
+}
+</code></pre>
+<p>(Note we're also using the <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Arrow function syntax</a> in this example)</p>
+<h5><a class="anchor" aria-hidden="true" name="async-actions"></a><a href="#async-actions" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Async Actions</h5>
+<p>If, for example, you're interacting with any APIs, you'll need some asynchronous Action creators. Redux on its own has <a href="http://redux.js.org/docs/advanced/AsyncActions.html">a fairly complex approach to async</a>, but because we're using React Native, we have access to <a href="https://facebook.github.io/react-native/docs/javascript-environment.html#javascript-syntax-transformers">ES7 <code>await</code> functionality</a> which simplifies the process:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/config.js */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadConfig</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">Action</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> config = <span class="hljs-keyword">await</span> Parse.Config.get();
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_CONFIG'</span>,
+    config,
+  };
+}
+</code></pre>
+<p>Here, we're making an API call to Parse to grab some app configuration data. Any API call to a web resource like this will take a certain amount of time. Instead of the Action being immediately dispatched, the action creator first waits for the result of API call (without blocking the JavaScript thread), and then once that data is available, then the Action object (with the API data in the payload) is returned.</p>
+<p>One of the benefits of asynchronous calls like this is that while we await the result of the <code>Parse.Config</code> call, other async operations can be doing work, so we can bucket a lot of operations together and automatically improved their efficiency.</p>
+<h3><a class="anchor" aria-hidden="true" name="binding-to-components"></a><a href="#binding-to-components" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Binding to Components</h3>
+<p>Now, we connect our Redux logic to React inside of our app's setup function:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/setup.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setup</span>(<span class="hljs-params"></span>): <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-comment">// ... other setup logic</span>
+
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Root</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>() {
+      <span class="hljs-keyword">super</span>();
+      <span class="hljs-keyword">this</span>.state = {
+        <span class="hljs-attr">store</span>: configureStore(),
+      };
+    }
+    render() {
+      <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{this.state.store}</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">F8App</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+      );
+    }
+  }
+
+  <span class="hljs-keyword">return</span> Root;
+}
+</code></pre>
+<p>We're using the official <a href="https://github.com/reactjs/react-redux">React and Redux bindings</a>, so we can use the built in <a href="http://redux.js.org/docs/basics/UsageWithReact.html#passing-the-store"><code>&lt;Provider&gt;</code> component</a>. This Provider lets us connect the Store that we've created to any components that we want:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/F8App.js */</span>
+<span class="hljs-keyword">var</span> F8App = React.createClass({
+  ...
+})
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">select</span>(<span class="hljs-params">state</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">notifications</span>: state.notifications,
+    <span class="hljs-attr">isLoggedIn</span>: state.user.isLoggedIn || state.user.hasSkippedLogin,
+  };
+}
+
+<span class="hljs-built_in">module</span>.exports = connect(select)(F8App);
+</code></pre>
+<p>Above we are showing a section of code from the <code>&lt;F8App&gt;</code> component - the parent component of our entire app.</p>
+<p>The function above is used to take the Redux Store, then take some data from it, and insert it into the <code>props</code> for our <code>&lt;F8App&gt;</code> component. In this case, we want data about notifications and the login status of the user to be <code>props</code> in that component, and for them to be kept up to date with any Store changes.</p>
+<p>We can use the React-Redux <a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options"><code>connect()</code> function</a> to accomplish this - <code>connect()</code> has an argument named <a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments"><code>mapStateToProps</code></a> which takes another function and any time there is a Store update, that function will be called.</p>
+<p>So when our app's Store updates, <code>select()</code> will be called, with the new <code>state</code> supplied as an argument. <code>select()</code> returns an object containing the data (in this case <code>notifications</code> and <code>isLoggedIn</code>) we want from this new <code>state</code>, then the <code>connect()</code> call merges this data into the <code>props</code> for the <code>&lt;F8App&gt;</code> component:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/F8App.js */</span>
+<span class="hljs-keyword">var</span> F8App = React.createClass({
+  ...
+  componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    ...
+    if (<span class="hljs-keyword">this</span>.props.notifications.enabled &amp;&amp; !<span class="hljs-keyword">this</span>.props.notifications.registered) {
+      ...
+    }
+    ...
+  },
+  ...
+})
+</code></pre>
+<p>We now have an <code>&lt;F8App&gt;</code> component that will be updated with any new <code>state</code> data that it has subscribed to through the <code>select()</code> function, which it can access through its own props. But how to we dispatch Actions from a component?</p>
+<h5><a class="anchor" aria-hidden="true" name="dispatching-actions-from-components"></a><a href="#dispatching-actions-from-components" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dispatching Actions from Components</h5>
+<p>To see how we can connect Actions to components, let's take a look at the relevant parts of <code>&lt;GeneralScheduleView&gt;</code>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/schedule/GeneralScheduleView.js */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GeneralScheduleView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  props: Props;
+
+  <span class="hljs-keyword">constructor</span>(props) {
+    <span class="hljs-keyword">super</span>(props);
+    <span class="hljs-keyword">this</span>.renderStickyHeader = <span class="hljs-keyword">this</span>.renderStickyHeader.bind(<span class="hljs-keyword">this</span>);
+    ...
+    this.switchDay = <span class="hljs-keyword">this</span>.switchDay.bind(<span class="hljs-keyword">this</span>);
+  }
+
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;ListContainer
+        title="Schedule"
+        backgroundImage={require('./img/schedule-background.png')}
+        backgroundShift={this.props.day - 1}
+        backgroundColor={'#5597B8'}
+        data={this.props.data}
+        renderStickyHeader={this.renderStickyHeader}
+        ...
+      /&gt;
+    );
+  }
+
+  ...
+
+  renderStickyHeader() {
+    return (
+      &lt;View&gt;
+        &lt;F8SegmentedControl
+          values={['Day 1', 'Day 2']}
+          selectedIndex={this.props.day - 1}
+          selectionColor="#51CDDA"
+          onChange={this.switchDay}
+        /&gt;
+        ...
+      &lt;/View&gt;
+    );
+  }
+
+  ...
+
+  switchDay(page) {
+    this.props.switchDay(page + 1);
+  }
+}
+
+module.exports = GeneralScheduleView;
+</code></pre>
+<p>Again, this code has been heavily simplified for ease of learning, but we can now add and modify code to connect this <a href="/tutorials/building-the-f8-app/data/#containercomponents">container component</a> to the Redux store:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/schedule/GeneralScheduleView.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">select</span>(<span class="hljs-params">store</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">day</span>: store.navigation.day,
+    <span class="hljs-attr">data</span>: data(store),
+  };
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actions</span>(<span class="hljs-params">dispatch</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">switchDay</span>: <span class="hljs-function">(<span class="hljs-params">day</span>) =&gt;</span> dispatch(switchDay(day)),
+  }
+}
+
+<span class="hljs-built_in">module</span>.exports = connect(select, actions)(GeneralScheduleView);
+</code></pre>
+<p>There's a difference this time - we provide the React-Redux <a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options"><code>connect()</code> function</a>'s optional argument, <a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments"><code>mapDispatchToProps</code></a>. Basically, doing this merges the action creators inside <code>actions()</code> into the component's props, while wrapping them in <code>dispatch()</code> so that they immediately dispatch an Action.</p>
+<h5><a class="anchor" aria-hidden="true" name="how-it-works"></a><a href="#how-it-works" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How it Works</h5>
+<p>Let's see the actual component:</p>
+<p><img src="/images/iOS_vs_Android_Segmented_Controls@3x.png" alt="Screenshot of segmented controls"></p>
+<p>Tapping on 'Day 1' here would trigger the <code>onChange</code> event in <code>renderStickyHeader()</code>, then the <code>switchDay()</code> function inside the component is called, and that function itself dispatches the <code>this.props.switchDay()</code> action creator. Inside one of our Actions files we can see this action creator:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/navigation.js */</span>
+  switchDay: (day): <span class="hljs-function"><span class="hljs-params">Action</span> =&gt;</span> ({
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'SWITCH_DAY'</span>,
+    day,
+  })
+</code></pre>
+<p>And inside the navigation Reducer we can see that this generates a new <code>state</code> tree with a modified <code>day</code> value:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/reducers/navigation.js */</span>
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'SWITCH_DAY'</span>) {
+    <span class="hljs-keyword">return</span> {...state, <span class="hljs-attr">day</span>: action.day};
+  }
+</code></pre>
+<p>The Reducer (and any other Reducers that might be watching for <code>SWITCH_DAY</code> Actions) returns the new <code>state</code> back to the Store, which updates itself and sends out a change event.</p>
+<p>And because by connecting <code>&lt;GeneralScheduleView&gt;</code> to the Redux Store we also subscribed it to changes to the <code>state</code> in that Store, the component will now update with the newly changed <code>day</code> value, displaying 'Day 1' schedules.</p>
+<h3><a class="anchor" aria-hidden="true" name="what-about-parse-server"></a><a href="#what-about-parse-server" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What about Parse Server?</h3>
+<p>You've hopefully consumed a lot of new information by now in this tutorial, but let's quickly show how we can connect our React Native app to our Parse Server data backend, and its relevant API:</p>
+<pre><code class="hljs css js">  Parse.initialize(
+    <span class="hljs-string">'PARSE_APP_ID'</span>,
+  );
+  Parse.serverURL = <span class="hljs-string">'http://exampleparseserver.com:1337/parse'</span>
+</code></pre>
+<p>That's it, we're connected to the Parse API inside React Native.</p>
+<p>Yep, because we're using the <a href="https://github.com/ParsePlatform/ParseReact">Parse + React</a> SDK (specifically the <code>parse/react-native</code> package in it), we have incredibly simple SDK access baked right in.</p>
+<h5><a class="anchor" aria-hidden="true" name="parse-and-actions"></a><a href="#parse-and-actions" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parse and Actions</h5>
+<p>Of course, we want to be able to also make queries (for example, inside our Actions)....a lot of queries. There's nothing special about these action creators; they are the same <a href="#async-actions">Async Actions we mentioned before</a>. However, because there are so many simple Parse API queries needed to initalise the app, we wanted to reduce boilerplate a bit. Inside our base Actions file, we created a base action creator:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/parse.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadParseQuery</span>(<span class="hljs-params">type: string, query: Parse.Query</span>): <span class="hljs-title">ThunkAction</span> </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> query.find({
+      <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">list</span>) =&gt;</span> dispatch(({type, list}: any)),
+      <span class="hljs-attr">error</span>: logError,
+    });
+  };
+}
+</code></pre>
+<p>And then we re-use this multiple times very simply:</p>
+<pre><code class="hljs css js">  loadMaps: (): <span class="hljs-function"><span class="hljs-params">ThunkAction</span> =&gt;</span>
+    loadParseQuery(<span class="hljs-string">'LOADED_MAPS'</span>, <span class="hljs-keyword">new</span> Parse.Query(Maps)),
+</code></pre>
+<p><code>loadMaps()</code> becomes an action creator that'll run a simple Parse Query for all the stored Map data, and pass it along - when the query is complete - inside of the Action payload. <code>loadMaps()</code> and a load of other Parse data Actions can be found being dispatched in the <code>componentDidMount()</code> function of the entire app (<code>js/F8App.js</code>), which means the app fetches all Parse data which it is first loaded.</p>
+<h5><a class="anchor" aria-hidden="true" name="parse-and-reducers"></a><a href="#parse-and-reducers" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parse and Reducers</h5>
+<p>We've cut down repetition in our Actions, but we want to reduce this boilerplate inside our Reducers too. These will receive a bunch of Parse API data from the Action payloads and have to map them to the <code>state</code> tree. We create a single base Reducer for Parse data:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/reducers/createParseReducer.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createParseReducer</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">
+  type: string,
+  convert: Convert&lt;T&gt;
+</span>): <span class="hljs-title">Reducer</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state: ?Array&lt;T&gt;, action: Action</span>): <span class="hljs-title">Array</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+    <span class="hljs-keyword">if</span> (action.type === type) {
+      <span class="hljs-comment">// Flow can't guarantee {type, list} is a valid action</span>
+      <span class="hljs-keyword">return</span> (action: any).list.map(convert);
+    }
+    <span class="hljs-keyword">return</span> state || [];
+  };
+}
+</code></pre>
+<p>This is a really simple Reducer (with lots of Flow type annotations thrown in), but let's see how it works with the child Reducers based off of it:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/reducers/faqs.js */</span>
+<span class="hljs-keyword">const</span> createParseReducer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./createParseReducer'</span>);
+
+<span class="hljs-keyword">export</span> type FAQ = {
+  <span class="hljs-attr">id</span>: string;
+  question: string;
+  answer: string;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fromParseObject</span>(<span class="hljs-params">map: Object</span>): <span class="hljs-title">FAQ</span> </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">id</span>: map.id,
+    <span class="hljs-attr">question</span>: map.get(<span class="hljs-string">'question'</span>),
+    <span class="hljs-attr">answer</span>: map.get(<span class="hljs-string">'answer'</span>),
+  };
+}
+
+<span class="hljs-built_in">module</span>.exports = createParseReducer(<span class="hljs-string">'LOADED_FAQS'</span>, fromParseObject);
+</code></pre>
+<p>So instead of repeating the <code>createParseReducer</code> portion of the code each time, we're simply passing an object to the base Reducer that maps the API data to the structure we want for our <code>state</code> tree.</p>
+<p>Now we have an app with a well-structured and easy to understand data flow, connection to our Parse server, and even offline syncing of our Store to local storage.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="1-2-design.html">← Designing an App for Multiple Platforms</a><a class="docs-next button" href="1-4-testing.html">Testing a React Native App →</a></div></div></div></div><div class="footerContainer"><div id="footer_wrap" class="wrapper footerWrapper"><div class="footerBlocks"><div id="fb_oss" class="footerSection fbOpenSourceFooter"><svg class="facebookOSSLogoSvg" viewBox="0 0 1133.9 1133.9" x="0px" y="0px"><g><path class="logoRing outerRing" d="M 498.3 3.7 c 153.6 88.9 307.3 177.7 461.1 266.2 c 7.6 4.4 10.3 9.1 10.3 17.8 c -0.3 179.1 -0.2 358.3 0 537.4 c 0 8.1 -2.4 12.8 -9.7 17.1 c -154.5 88.9 -308.8 178.1 -462.9 267.5 c -9 5.2 -15.5 5.3 -24.6 0.1 c -153.9 -89.2 -307.9 -178 -462.1 -266.8 C 3 838.8 0 833.9 0 825.1 c 0.3 -179.1 0.2 -358.3 0 -537.4 c 0 -8.6 2.6 -13.6 10.2 -18 C 164.4 180.9 318.4 92 472.4 3 C 477 -1.5 494.3 -0.7 498.3 3.7 Z M 48.8 555.3 c 0 79.9 0.2 159.9 -0.2 239.8 c -0.1 10 3 15.6 11.7 20.6 c 137.2 78.8 274.2 157.8 411 237.3 c 9.9 5.7 17 5.7 26.8 0.1 c 137.5 -79.8 275.2 -159.2 412.9 -238.5 c 7.4 -4.3 10.5 -8.9 10.5 -17.8 c -0.3 -160.2 -0.3 -320.5 0 -480.7 c 0 -8.8 -2.8 -13.6 -10.3 -18 C 772.1 218 633.1 137.8 494.2 57.4 c -6.5 -3.8 -11.5 -4.5 -18.5 -0.5 C 336.8 137.4 197.9 217.7 58.8 297.7 c -7.7 4.4 -10.2 9.2 -10.2 17.9 C 48.9 395.5 48.8 475.4 48.8 555.3 Z"></path><path class="logoRing middleRing" d="M 184.4 555.9 c 0 -33.3 -1 -66.7 0.3 -100 c 1.9 -48 24.1 -86 64.7 -110.9 c 54.8 -33.6 110.7 -65.5 167 -96.6 c 45.7 -25.2 92.9 -24.7 138.6 1 c 54.4 30.6 108.7 61.5 162.2 93.7 c 44 26.5 67.3 66.8 68 118.4 c 0.9 63.2 0.9 126.5 0 189.7 c -0.7 50.6 -23.4 90.7 -66.6 116.9 c -55 33.4 -110.8 65.4 -167.1 96.5 c -43.4 24 -89 24.2 -132.3 0.5 c -57.5 -31.3 -114.2 -64 -170 -98.3 c -41 -25.1 -62.9 -63.7 -64.5 -112.2 C 183.5 621.9 184.3 588.9 184.4 555.9 Z M 232.9 556.3 c 0 29.5 0.5 59.1 -0.1 88.6 c -0.8 39.2 16.9 67.1 50.2 86.2 c 51.2 29.4 102.2 59.2 153.4 88.4 c 31.4 17.9 63.6 18.3 95 0.6 c 53.7 -30.3 107.1 -61.2 160.3 -92.5 c 29.7 -17.5 45 -44.5 45.3 -78.8 c 0.6 -61.7 0.5 -123.5 0 -185.2 c -0.3 -34.4 -15.3 -61.5 -44.9 -79 C 637.7 352.6 583 320.8 527.9 290 c -27.5 -15.4 -57.2 -16.1 -84.7 -0.7 c -56.9 31.6 -113.4 64 -169.1 97.6 c -26.4 15.9 -40.7 41.3 -41.1 72.9 C 232.6 491.9 232.9 524.1 232.9 556.3 Z"></path><path class="logoRing innerRing" d="M 484.9 424.4 c 69.8 -2.8 133.2 57.8 132.6 132 C 617 630 558.5 688.7 484.9 689.1 c -75.1 0.4 -132.6 -63.6 -132.7 -132.7 C 352.1 485 413.4 421.5 484.9 424.4 Z M 401.3 556.7 c -3.4 37.2 30.5 83.6 83 84.1 c 46.6 0.4 84.8 -37.6 84.9 -84 c 0.1 -46.6 -37.2 -84.4 -84.2 -84.6 C 432.2 472.1 397.9 518.3 401.3 556.7 Z"></path></g></svg><h2>Facebook Open Source</h2></div><div class="footerSection rightAlign"><a class="footerLink" href="https://code.facebook.com/projects/" target="_blank">Open Source Projects</a><a class="footerLink" href="https://github.com/facebook/" target="_blank">GitHub</a><a class="footerLink" href="https://twitter.com/fbOpenSource" target="_blank">Twitter</a><a class="footerLink" href="https://github.com/facebook/makeitopen/" target="_blank">Contribute on GitHub</a></div></div></div></div></div><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-14', 'auto');
+              ga('send', 'pageview');
+            </script></body></html>

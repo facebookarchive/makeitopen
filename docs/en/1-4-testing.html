@@ -1,0 +1,212 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Testing a React Native App · makeitopen.com</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Testing a React Native App · makeitopen.com"/><meta property="og:type" content="website"/><meta property="og:url" content="http://makeitopen.com/index.html"/><meta property="og:description" content="*This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for [Android](https://play.google.com/store/apps/details?id=com.facebook.f8) and [iOS](https://itunes.apple.com/us/app/f8/id853467066).*"/><link rel="shortcut icon" href="/images/favicon_junction.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-savanna-dark.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/images/logo.png"/><h2 class="headerTitle">makeitopen.com</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Building the F8 App</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Building the F8 App</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/1-1-planning.html">Part 1: Planning The App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-2-design.html">Part 2: Designing an App for Multiple Platforms</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-3-data.html">Part 3: Integrating Data with React Native</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/1-4-testing.html">Part 4: Testing a React Native App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A1-local-setup.html">Appendix I: Running the App Locally</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A2-relay.html">Appendix II: Using Relay and GraphQL</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A3-windows.html">Appendix III: Porting the F8 App To Windows</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1-A4-translations.html">Appendix IV: Makeitopen in Other Languages</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/makeitopen/edit/master/docs/1-4-testing.md" target="_blank">Edit</a><h1>Testing a React Native App</h1></header><article><div><span><p><em>This is a series of tutorials designed to introduce React Native and its Open Source ecosystem in plain English, written alongside the building of the F8 2016 app for <a href="https://play.google.com/store/apps/details?id=com.facebook.f8">Android</a> and <a href="https://itunes.apple.com/us/app/f8/id853467066">iOS</a>.</em></p>
+<p>In classic software development life cycles, the testing phase is always seen as just that - a distinct phase that usually happens near the end of development. This can be even more true when working with freshly minted Open Source frameworks, because their releases tend to not be accompanied by any kind of testing technology.</p>
+<p>Luckily, React Native was built by Facebook from the very beginning with continuous testing techniques in mind. In this part we'll explore how you can use <a href="http://nuclide.io">Nuclide</a>, <a href="http://flowtype.org">Flow</a>, and <a href="http://facebook.github.io/jest/">Jest</a> with React Native to improve the quality of your code as you're writing it.</p>
+<h3><a class="anchor" aria-hidden="true" name="flow-type-checking-to-stop-writing-bad-code"></a><a href="#flow-type-checking-to-stop-writing-bad-code" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Flow: Type-checking to Stop Writing Bad Code</h3>
+<p><a href="http://flowtype.org">Flow</a> provides JavaScript with <a href="http://flowtype.org/docs/about-flow.html#_">static type checking</a>, and works in a gradual way, allowing you to slowly add Flow features to your code. This is really useful because we can introduce type checking in particular parts of the code without having to re-write the entire app to be Flow-compatible.</p>
+<p>In our F8 app, we decided from the start to use React Native with Flow in its most complete form, adding <a href="http://flowtype.org/docs/type-annotations.html#_">type annotations</a> everywhere necessary, and letting Flow work its magic as we progressed.</p>
+<p>For example, lets look at one of the simple Actions we described in the <a href="/docs/en/1-3-data.html">Data tutorial</a>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/login.js */</span>
+
+<span class="hljs-comment">/*
+ * @flow
+ */</span>
+
+...
+
+function skipLogin(): Action {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'SKIPPED_LOGIN'</span>,
+  };
+}
+</code></pre>
+<p>We've added the <code>@flow</code> flag to the file header (which <a href="http://flowtype.org/docs/getting-started.html#_">tells Flow to check the code</a>) and then we're using Flow's <a href="http://flowtype.org/docs/type-annotations.html#_">type annotations</a> to indicate that whatever is returned by <code>skipLogin()</code> must be of type <code>Action</code>. But that type isn't built into React Native, or Redux, so we have defined it ourselves:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/types.js */</span>
+
+<span class="hljs-keyword">export</span> type Action =
+    { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_ABOUT'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;ParseObject&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_NOTIFICATIONS'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;ParseObject&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_MAPS'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;ParseObject&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_FRIENDS_SCHEDULES'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;{ <span class="hljs-attr">id</span>: string; name: string; schedule: {[key: string]: boolean}; }&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_CONFIG'</span>, <span class="hljs-attr">config</span>: ParseObject }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_SESSIONS'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;ParseObject&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_SURVEYS'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;<span class="hljs-built_in">Object</span>&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SUBMITTED_SURVEY_ANSWERS'</span>, <span class="hljs-attr">id</span>: string; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOGGED_IN'</span>, <span class="hljs-attr">data</span>: { <span class="hljs-attr">id</span>: string; name: string; sharedSchedule: ?boolean; } }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'RESTORED_SCHEDULE'</span>, <span class="hljs-attr">list</span>: <span class="hljs-built_in">Array</span>&lt;ParseObject&gt; }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SKIPPED_LOGIN'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'LOGGED_OUT'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SESSION_ADDED'</span>, <span class="hljs-attr">id</span>: string }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SESSION_REMOVED'</span>, <span class="hljs-attr">id</span>: string }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SET_SHARING'</span>, <span class="hljs-attr">enabled</span>: boolean }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'APPLY_TOPICS_FILTER'</span>, <span class="hljs-attr">topics</span>: {[key: string]: boolean} }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'CLEAR_FILTER'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SWITCH_DAY'</span>, <span class="hljs-attr">day</span>: <span class="hljs-number">1</span> | <span class="hljs-number">2</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SWITCH_TAB'</span>, <span class="hljs-attr">tab</span>: <span class="hljs-string">'schedule'</span> | <span class="hljs-string">'my-schedule'</span> | <span class="hljs-string">'map'</span> | <span class="hljs-string">'notifications'</span> | <span class="hljs-string">'info'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'TURNED_ON_PUSH_NOTIFICATIONS'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'REGISTERED_PUSH_NOTIFICATIONS'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SKIPPED_PUSH_NOTIFICATIONS'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'RECEIVED_PUSH_NOTIFICATION'</span>, <span class="hljs-attr">notification</span>: <span class="hljs-built_in">Object</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'SEEN_ALL_NOTIFICATIONS'</span> }
+  | { <span class="hljs-attr">type</span>: <span class="hljs-string">'RESET_NUXES'</span> }
+  ;
+
+</code></pre>
+<p>Here we have created a <a href="http://flowtype.org/docs/type-aliases.html#_">Flow type alias</a> that says that anything of type <code>Action</code> must be one of a series of different potential object shapes. The <code>SKIPPED_LOGIN</code> Action must only contain its own type label, whereas for comparison, a <code>LOADED_SURVEYS</code> Action must return the type label and a list item. We can see that the relevant Action Creator does just that:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/actions/surveys.js */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadSurveys</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">Action</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> list = <span class="hljs-keyword">await</span> Parse.Cloud.run(<span class="hljs-string">'surveys'</span>);
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_SURVEYS'</span>,
+    list,
+  };
+}
+</code></pre>
+<p>Because we are using lots of different Actions in the app, this strong typing check lets us know simple things like having a typo in the type label, or more important things like the data payload being in the wrong format.</p>
+<p>We also then get the same strong typing checks in our Reducers:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/reducers/surveys.js */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">surveys</span>(<span class="hljs-params">state: State = [], action: Action</span>): <span class="hljs-title">State</span> </span>{
+  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'LOADED_SURVEYS'</span>) {
+    <span class="hljs-keyword">return</span> action.list;
+  }
+  ...
+  return state;
+}
+</code></pre>
+<p>Because the <code>action</code> argument is typed as the same <code>Action</code> as above, the Reducer function must use an <code>action.type</code> that is valid. We can also use type aliases to define shapes for the Reducer's <code>state</code> tree section:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/reducers/user.js */</span>
+<span class="hljs-keyword">export</span> type State = {
+  <span class="hljs-attr">isLoggedIn</span>: boolean;
+  hasSkippedLogin: boolean;
+  sharedSchedule: ?boolean;
+  id: ?string;
+  name: ?string;
+};
+
+<span class="hljs-keyword">const</span> initialState = {
+  <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">hasSkippedLogin</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">sharedSchedule</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">id</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-literal">null</span>,
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">user</span>(<span class="hljs-params">state: State = initialState, action: Action</span>): <span class="hljs-title">State</span> </span>{
+  ...
+}
+</code></pre>
+<p>We showed you this <code>initialState</code> object in the <a href="/docs/en/1-3-data.html">data tutorial</a>, but now you can see how we have forced this <code>state</code> tree section to conform to a defined Flow type. If the Reducer is sent, or tries to return, any <code>state</code> that doesn't conform to this same shape, we'll see a Flow type checking error.</p>
+<p>Note that Flow checks are run at compile-time only, and the React Native packager <a href="https://github.com/facebook/react-native/blob/master/babel-preset/configs/main.js#L32">strips them automatically</a> - this means using Flow in your code doesn't have any kind of runtime performance penalty.</p>
+<p>Of course, right now, we still have to manually run the Flow type-checker every time we want to test some code (using the <a href="http://flowtype.org/docs/cli.html#_">Flow command line interface</a>) but we can also use Nuclide to get this kind of verification <em>as we write the code</em>.</p>
+<h3><a class="anchor" aria-hidden="true" name="nuclide-a-react-native-aware-development-environment"></a><a href="#nuclide-a-react-native-aware-development-environment" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Nuclide: A React Native-aware Development Environment</h3>
+<p>The <a href="http://nuclide.io/docs/platforms/react-native/">Nuclide website</a> contains a full rundown of the kind of React Native tailored features it offers, but suffice to say, it's a first-class IDE for React Native, built for the same people at Facebook who created React Native, and who use it to write Facebook apps every day.</p>
+<p>The Flow integration is what we're specifically interested in though. Here we can see a sample of code from the same user Reducer that we showed with the typed <code>state</code> object above:</p>
+<pre><code class="hljs css js">  <span class="hljs-keyword">if</span> (action.type === <span class="hljs-string">'SKIPPED_LOGIN'</span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">hasSkippedLogin</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">sharedSchedule</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-literal">null</span>,
+    };
+  }
+</code></pre>
+<p>As we said before, we have defined the shape that the Reducer function must return, and with Nuclide, we can see our mistakes happening in real-time:</p>
+<video width="1174" height="1002" autoplay loop>
+  <source src="/videos/flow.mp4" type="video/mp4">
+  Your browser does not support the HTML5 video tag.
+</video>
+<p>If we leave out any part of the State type, something that could happen accidentally but frequently when rapidly building an app, we get instant feedback that we aren't returning the correct type of object.</p>
+<p>Nuclide will do this for all of our relevant Flow type-checking. This means, instead of waiting until the app is nearly completely built, type errors are spotted, and mistakes corrected, as the code is being written.</p>
+<p>It might seem unintuitive, but this actually sped up development - unravelling un-typed code can be really difficult, and doing it all when you've already built your app can be messy.</p>
+<h3><a class="anchor" aria-hidden="true" name="jest-unit-testing-for-bug-free-changes"></a><a href="#jest-unit-testing-for-bug-free-changes" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Jest: Unit Testing for Bug-Free Changes</h3>
+<p><a href="http://facebook.github.io/jest/">Jest</a> provides a unit test framework for JavaScript, and works well with <a href="http://facebook.github.io/react-native/docs/testing.html#content">React Native apps</a>.</p>
+<p>We are using these unit tests to ensure that already built, functional code isn't modified in a way that introduces bugs (also called regression testing).</p>
+<p>For example, we want to have a Jest test that ensures the Reducer handling maps data continued to work as expected:</p>
+<pre><code class="hljs css js">jest.autoMockOff();
+
+<span class="hljs-keyword">const</span> Parse = <span class="hljs-built_in">require</span>(<span class="hljs-string">'parse'</span>);
+<span class="hljs-keyword">const</span> maps = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../maps'</span>); <span class="hljs-comment">// 1</span>
+
+describe(<span class="hljs-string">'maps reducer'</span>, () =&gt; {
+
+  it(<span class="hljs-string">'is empty by default'</span>, () =&gt; { <span class="hljs-comment">// 2</span>
+    expect(maps(<span class="hljs-literal">undefined</span>, {})).toEqual([]);
+  });
+
+  it(<span class="hljs-string">'populates maps from server'</span>, () =&gt; { <span class="hljs-comment">// 3</span>
+    <span class="hljs-keyword">let</span> list = [
+      <span class="hljs-keyword">new</span> Parse.Object({<span class="hljs-attr">mapTitle</span>: <span class="hljs-string">'Day 1'</span>, <span class="hljs-attr">mapImage</span>: <span class="hljs-keyword">new</span> Parse.File(<span class="hljs-string">'1.png'</span>)}),
+      <span class="hljs-keyword">new</span> Parse.Object({<span class="hljs-attr">mapTitle</span>: <span class="hljs-string">'Day 2'</span>, <span class="hljs-attr">mapImage</span>: <span class="hljs-keyword">new</span> Parse.File(<span class="hljs-string">'2.png'</span>)}),
+    ];
+
+    expect(
+      maps([], {<span class="hljs-attr">type</span>: <span class="hljs-string">'LOADED_MAPS'</span>, list})
+    ).toEqual([{
+      <span class="hljs-attr">id</span>: jasmine.any(<span class="hljs-built_in">String</span>),
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Day 1'</span>,
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'1.png'</span>,
+    }, {
+      <span class="hljs-attr">id</span>: jasmine.any(<span class="hljs-built_in">String</span>),
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Day 2'</span>,
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'2.png'</span>,
+    }]);
+  });
+
+});
+</code></pre>
+<p>Jest is really easy to read (note that even our Jest tests are Flow typed!), but we'll break it down:</p>
+<ol>
+<li><p>We're including the maps Reducer function (<code>js/reducers/maps.js</code>) so that it can be used directly in the unit test (Reducer functions being <a href="https://en.wikipedia.org/wiki/Pure_function">pure functions</a> means this is easily done).</p></li>
+<li><p>The first test is ensuring that the Reducer function returns an empty array. If you look at the Reducer code itself in <code>js/reducers/maps.js</code> you'll see that it doesn't have any initial state, which is why we want an empty array from the unit test.</p></li>
+<li><p>The second test is ensuring that when the map data is retrieved from the Parse API it is correctly transformed by the Reducer function into the correct structure for the <code>state</code> tree. In this test we are using mock data objects that fully mimic the structure of the actual Parse-stored data - this would avoid any API connection issues causing this test to fail.</p></li>
+</ol>
+<p>Now we have to make running the Jest tests part of our development workflow - for example, before every Git commit - and we can be more confident that changes to existing code won't silently break the app.</p>
+<p>The fact that Redux Reducers mutate the <code>state</code> tree in our app makes it absolutely vital that bugs aren't introduced, especially as bugs with <code>state</code> mutation could easily be missed as they might not break anything functionally, instead just sending the wrong data to our Parse Server. Their pure function nature also makes them ideal candidates for regression testing because we can more accurately predict how they should perform every time.</p>
+<h3><a class="anchor" aria-hidden="true" name="debugging"></a><a href="#debugging" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debugging</h3>
+<p>When you're trying to locate a bug, or find a fix for one, it's helpful to have some debugging tools on hand. We've already described <a href="/docs/en/1-2-design.html#the-design-iteration-cycle">how we built a system for debugging our app's visual elements</a>, but what about the data?</p>
+<p>We're using the <a href="https://facebook.github.io/react-native/docs/debugging.html#chrome-developer-tools">Chrome Developer Tools</a> through <a href="http://nuclide.io/docs/features/debugger/">Nuclide</a> along with the <a href="http://evgenyrodionov.github.io/redux-logger/">Redux Logger</a> middleware, which provides the console with additional Redux context such as Actions or <code>state</code> changes in Reducers:</p>
+<p><img src="/images/redux_logger.png" alt="Redux Logger Middleware in action with additional console context"></p>
+<p>You can see how we enable this via our <code>configureStore</code> function:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/store/configureStore.js */</span>
+<span class="hljs-keyword">var</span> createLogger = <span class="hljs-built_in">require</span>(<span class="hljs-string">'redux-logger'</span>);
+...
+var isDebuggingInChrome = __DEV__ &amp;&amp; !!<span class="hljs-built_in">window</span>.navigator.userAgent; <span class="hljs-comment">// 1</span>
+<span class="hljs-keyword">var</span> logger = createLogger({ <span class="hljs-comment">// 2</span>
+  predicate: <span class="hljs-function">(<span class="hljs-params">getState, action</span>) =&gt;</span> isDebuggingInChrome,
+  <span class="hljs-attr">collapsed</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-literal">true</span>,
+});
+
+<span class="hljs-keyword">var</span> createF8Store = applyMiddleware(thunk, promise, array, logger)(createStore); <span class="hljs-comment">// 3</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureStore</span>(<span class="hljs-params">onComplete: ?(</span>) =&gt; <span class="hljs-title">void</span>) </span>{
+  <span class="hljs-keyword">const</span> store = autoRehydrate()(createF8Store)(reducers);
+  persistStore(store, {<span class="hljs-attr">storage</span>: AsyncStorage}, onComplete);
+  <span class="hljs-keyword">if</span> (isDebuggingInChrome) { <span class="hljs-comment">// 4</span>
+    <span class="hljs-built_in">window</span>.store = store;
+  }
+  <span class="hljs-keyword">return</span> store;
+}
+</code></pre>
+<p>Here's what's going on:</p>
+<ol>
+<li><p>We're triggering extra debugging functionality by using a <a href="http://www.w3schools.com/js/js_scope.asp">global variable</a> called <code>__DEV__</code> that'll let us switch into and out of debugging mode with a simple boolean change.</p></li>
+<li><p>We're creating the Logger middleware <a href="https://github.com/fcomb/redux-logger#options-1">with some options</a>. The debug flag created previously determines whether the created logger middleware actually logs actions (using the <a href="https://github.com/fcomb/redux-logger#predicate--getstate-function-action-object--boolean"><code>predicate</code> option</a>).</p></li>
+<li><p>We're applying the middleware using Redux's <a href="http://redux.js.org/docs/api/applyMiddleware.html"><code>applyMiddleware()</code> function</a>. This is all we need to do in order to see those logging entries show up in the console.</p></li>
+<li><p>The debug flag adds a copy of the current Store object to the <a href="http://www.w3schools.com/jsref/obj_window.asp">Window object</a>. This just saves having to add it to the Window everytime, which in turn makes it easier to browse directly via the console.</p></li>
+</ol>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="1-3-data.html">← Integrating Data with React Native</a><a class="docs-next button" href="1-A1-local-setup.html">Running the App Locally →</a></div></div></div></div><div class="footerContainer"><div id="footer_wrap" class="wrapper footerWrapper"><div class="footerBlocks"><div id="fb_oss" class="footerSection fbOpenSourceFooter"><svg class="facebookOSSLogoSvg" viewBox="0 0 1133.9 1133.9" x="0px" y="0px"><g><path class="logoRing outerRing" d="M 498.3 3.7 c 153.6 88.9 307.3 177.7 461.1 266.2 c 7.6 4.4 10.3 9.1 10.3 17.8 c -0.3 179.1 -0.2 358.3 0 537.4 c 0 8.1 -2.4 12.8 -9.7 17.1 c -154.5 88.9 -308.8 178.1 -462.9 267.5 c -9 5.2 -15.5 5.3 -24.6 0.1 c -153.9 -89.2 -307.9 -178 -462.1 -266.8 C 3 838.8 0 833.9 0 825.1 c 0.3 -179.1 0.2 -358.3 0 -537.4 c 0 -8.6 2.6 -13.6 10.2 -18 C 164.4 180.9 318.4 92 472.4 3 C 477 -1.5 494.3 -0.7 498.3 3.7 Z M 48.8 555.3 c 0 79.9 0.2 159.9 -0.2 239.8 c -0.1 10 3 15.6 11.7 20.6 c 137.2 78.8 274.2 157.8 411 237.3 c 9.9 5.7 17 5.7 26.8 0.1 c 137.5 -79.8 275.2 -159.2 412.9 -238.5 c 7.4 -4.3 10.5 -8.9 10.5 -17.8 c -0.3 -160.2 -0.3 -320.5 0 -480.7 c 0 -8.8 -2.8 -13.6 -10.3 -18 C 772.1 218 633.1 137.8 494.2 57.4 c -6.5 -3.8 -11.5 -4.5 -18.5 -0.5 C 336.8 137.4 197.9 217.7 58.8 297.7 c -7.7 4.4 -10.2 9.2 -10.2 17.9 C 48.9 395.5 48.8 475.4 48.8 555.3 Z"></path><path class="logoRing middleRing" d="M 184.4 555.9 c 0 -33.3 -1 -66.7 0.3 -100 c 1.9 -48 24.1 -86 64.7 -110.9 c 54.8 -33.6 110.7 -65.5 167 -96.6 c 45.7 -25.2 92.9 -24.7 138.6 1 c 54.4 30.6 108.7 61.5 162.2 93.7 c 44 26.5 67.3 66.8 68 118.4 c 0.9 63.2 0.9 126.5 0 189.7 c -0.7 50.6 -23.4 90.7 -66.6 116.9 c -55 33.4 -110.8 65.4 -167.1 96.5 c -43.4 24 -89 24.2 -132.3 0.5 c -57.5 -31.3 -114.2 -64 -170 -98.3 c -41 -25.1 -62.9 -63.7 -64.5 -112.2 C 183.5 621.9 184.3 588.9 184.4 555.9 Z M 232.9 556.3 c 0 29.5 0.5 59.1 -0.1 88.6 c -0.8 39.2 16.9 67.1 50.2 86.2 c 51.2 29.4 102.2 59.2 153.4 88.4 c 31.4 17.9 63.6 18.3 95 0.6 c 53.7 -30.3 107.1 -61.2 160.3 -92.5 c 29.7 -17.5 45 -44.5 45.3 -78.8 c 0.6 -61.7 0.5 -123.5 0 -185.2 c -0.3 -34.4 -15.3 -61.5 -44.9 -79 C 637.7 352.6 583 320.8 527.9 290 c -27.5 -15.4 -57.2 -16.1 -84.7 -0.7 c -56.9 31.6 -113.4 64 -169.1 97.6 c -26.4 15.9 -40.7 41.3 -41.1 72.9 C 232.6 491.9 232.9 524.1 232.9 556.3 Z"></path><path class="logoRing innerRing" d="M 484.9 424.4 c 69.8 -2.8 133.2 57.8 132.6 132 C 617 630 558.5 688.7 484.9 689.1 c -75.1 0.4 -132.6 -63.6 -132.7 -132.7 C 352.1 485 413.4 421.5 484.9 424.4 Z M 401.3 556.7 c -3.4 37.2 30.5 83.6 83 84.1 c 46.6 0.4 84.8 -37.6 84.9 -84 c 0.1 -46.6 -37.2 -84.4 -84.2 -84.6 C 432.2 472.1 397.9 518.3 401.3 556.7 Z"></path></g></svg><h2>Facebook Open Source</h2></div><div class="footerSection rightAlign"><a class="footerLink" href="https://code.facebook.com/projects/" target="_blank">Open Source Projects</a><a class="footerLink" href="https://github.com/facebook/" target="_blank">GitHub</a><a class="footerLink" href="https://twitter.com/fbOpenSource" target="_blank">Twitter</a><a class="footerLink" href="https://github.com/facebook/makeitopen/" target="_blank">Contribute on GitHub</a></div></div></div></div></div><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-14', 'auto');
+              ga('send', 'pageview');
+            </script></body></html>
