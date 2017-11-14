@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:6.11.4
 
     working_directory: ~/makeitopen
 
@@ -16,10 +16,11 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - dependencies-{{ .Branch }}-
 
-      - run: |
+      - run:
           name: Install Docusaurus
-          cd website
-          yarn --non-interactive --cache-folder ~/.cache/yarn
+          command: |
+            cd website
+            yarn --non-interactive --cache-folder ~/.cache/yarn
 
       - save_cache:
           paths:
@@ -27,7 +28,7 @@ jobs:
             - ~/.cache/yarn
           key: dependencies-{{ .Branch }}-{{ checksum "website/yarn.lock" }}
         
-      - run: |
+      - run:
           name: Configure GitHub Bot
           command: |
             git config --global user.email "docusaurus-bot@users.noreply.github.com"
