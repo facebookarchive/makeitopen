@@ -10,7 +10,7 @@ const users = [];
 
 const siteConfig = {
   title: "makeitopen.com" /* title for your website */,
-  tagline: "Building the F8 2016 App",
+  tagline: "Building the F8 App",
   url: "http://makeitopen.com" /* your website url */,
   baseUrl: "/" /* base url for your project */,
   projectName: "makeitopen",
