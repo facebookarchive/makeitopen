@@ -178,13 +178,36 @@ class Index extends React.Component {
         <HomeSplash language={language} />
         <div className="mainContainer">
           <Container padding={["bottom", "top"]}>
-            <p>Every year, as part of the F8 conference, Facebook builds iOS and Android apps that give attendees a schedule for the conference, and let them learn more about the talks and speakers. The apps have also provided reminders for upcoming talks and ad-hoc announcements to attendees.</p>
+            <p>
+              Every year, as part of the F8 conference, Facebook builds
+              iOS and Android apps that give attendees a schedule for
+              the conference, and let them learn more about the talks and
+              speakers. The apps have also provided reminders for upcoming
+              talks and ad-hoc announcements to attendees.
+            </p>
 
-            <p>This year, we wanted to not only release the <a href="https://github.com/fbsamples/f8app/" target="_blank">source code on GitHub</a>, but also to produce a series of tutorials. These were designed to introduce React Native and its Open Source ecosystem in plain English.</p>
+            <p>
+              In 2016, we released the <a href="https://github.com/fbsamples/f8app/" target="_blank">
+              source code on GitHub</a>, and produced a series of tutorials.
+              These were designed to introduce React Native and its Open
+              Source ecosystem in plain English.
+            </p>
 
-            <p>This tutorial series has been written during the app's development. Elements, such as code samples, will continue to evolve and improve over time after the app has been released.</p>
+            <p>
+              This tutorial series is typically updated during the app's
+              development. Elements, such as code samples, will continue
+              to evolve and improve over time after the app has been
+              released. We plan to continue refreshing the app and the
+              related tutorials as part of future F8 conferences.
+            </p>
 
-            <p>Comments and feedback are welcome via <a href="https://github.com/facebook/makeitopen/issues">GitHub issues</a>. The tutorials are designed to be readable individually, but we recommend reading through in sequence.</p>
+            <p>
+              Comments and feedback are welcome via <a href="https://github.com/facebook/makeitopen/issues">
+              GitHub issues</a>. The tutorials are designed to be
+              readable individually, but we recommend reading through
+              in sequence.
+            </p>
+
           </Container>
           <Container padding={["bottom"]}>
             <MyGridBlock
