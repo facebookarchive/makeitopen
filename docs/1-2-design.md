@@ -11,7 +11,7 @@ One of the major highlights of React Native is its simplicity around creating ap
 
 However, rather than "write once, run anywhere", the philosophy of React Native has always been "learn once, write anywhere". This subtle difference means that React Native apps should be tailored for each platform, rather than being identical everywhere.
 
-From a UI perspective, as platforms have somewhat different visual styles, UI paradigms, or even technical capabilities, it makes sense to start with a common UI foundation, and then tweak it for each platform.
+From a UI perspective - as platforms have somewhat different visual styles, UI paradigms, or even technical capabilities - it makes sense to start with a common UI foundation, and then tweak it for each platform.
 
 #### Before We Start
 
@@ -358,7 +358,7 @@ class Playground extends React.Component {
 TOWATCH: Changes to the Playground component
 -->
 
-This simply creates an empty view that can be swapped out to load instead of the actual app. When we combine this with some example definitions in one of the UI components, in this case `AddToScheduleButton.js`:
+This simply creates an empty view that can be swapped in to load instead of the actual app. When we combine this with some example definitions in one of the UI components, in this case `AddToScheduleButton.js`:
 
 ```js
 /* from js/tabs/schedule/AddToScheduleButton.js */
