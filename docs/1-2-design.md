@@ -11,7 +11,7 @@ One of the major highlights of React Native is its simplicity around creating ap
 
 However, rather than "write once, run anywhere", the philosophy of React Native has always been "learn once, write anywhere". This subtle difference means that React Native apps should be tailored for each platform, rather than being identical everywhere.
 
-From a UI perspective - as platforms have somewhat different visual styles, UI paradigms, or even technical capabilities - it makes sense to start with a common UI foundation, and then tweak it for each platform.
+Platforms can have somewhat different visual styles, UI paradigms, or even technical capabilities. Thus, it makes sense to start with a common UI foundation, and then tweak it for each platform.
 
 #### Before We Start
 
