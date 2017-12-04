@@ -8,9 +8,9 @@ authorTwitter: oclbdk
 category: announcements
 ---
 
-![F8 2017 App](/images/f8app-2017-app.png)
+Since 2015, we've open sourced the F8 conference app. This gives developers insights into how we build at Facebook and is a great showcase for how Facebook open source projects work together. We've even heard from developers that the F8 app is a great resource for learning how to build a relatively complex React Native project.
 
-Since 2015, we've open sourced the F8 conference app. This gives developers insights into how we build at Facebook and is a great showcase for how Facebook open source projects work together. We've even heard from developers that the F8 app is a great resource for learning how to build a relatively complex React Native project. 
+![F8 2017 App](/images/f8app-2017-app.png)
 
 We didn't want this year to be any different so today, we're releasing the code behind the 2017 app and refreshing the [supporting website](http://makeitopen.com/).
 
