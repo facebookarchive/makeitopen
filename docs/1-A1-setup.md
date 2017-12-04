@@ -4,76 +4,85 @@ title: Running the App Locally
 sidebar_label: Appendix I: Running the App Locally
 ---
 
-While you can run the F8 App on your mobile device by downloading it from the [iOS App Store](https://itunes.apple.com/us/app/f8/id853467066), or the [Google Play Store](https://play.google.com/store/apps/details?id=com.facebook.f8), you might want to run it locally while reading these tutorials.
+While you can run the F8 App on your mobile device by downloading it from the [iOS App Store](https://itunes.apple.com/us/app/f8/id853467066) or the [Google Play Store](https://play.google.com/store/apps/details?id=com.facebook.f8), you might want to run it locally while reading these tutorials.
 
-Follow this short guide to setup and run the source code locally on OSX (the Android version of React Native has [some support](http://facebook.github.io/react-native/docs/linux-windows-support.html#content) for Windows and Linux testing).
+Follow this short guide to set up and run the source code locally on macOS (the Android version of React Native has [some support](http://facebook.github.io/react-native/docs/linux-windows-support.html#content) for Windows and Linux testing).
 
-### Requirements
-
-Before you get started, you'll need to install some pre-requisites:
-
-1. [React Native](http://facebook.github.io/react-native/docs/getting-started.html) (follow iOS and Android guides)
-2. [CocoaPods](http://cocoapods.org) 1.0+ (only for iOS)
-3. [MongoDB](https://www.mongodb.org/downloads) (needed to run Parse Server locally)
-
-### Setup
-
-#### 1. **Clone the repo**
+## Clone the repo
 
 ```
-$ git clone https://github.com/fbsamples/f8app.git
-$ cd f8app
+git clone https://github.com/fbsamples/f8app.git
+cd f8app
 ```
 
-#### 2. **Install dependencies** (npm v3+):
+## Install dependencies
 
-```
-$ npm install
-$ (cd ios; pod install)        # only for iOS version
-```
+### All platforms
 
-#### 3. **Make sure MongoDB is running:**
+[Yarn](https://yarnpkg.com/en/docs/install), for installing the NPM dependencies and running helper scripts.
 
-```
-$ lsof -iTCP:27017 -sTCP:LISTEN
-```
+[Watchman](https://facebook.github.io/watchman/docs/install.html), for the React Native packager to automatically detect your changes.
 
-or if using external MongoDB server, set `DATABASE_URI`:
+[Docker](https://docs.docker.com/engine/installation/), for running the local development server.
 
-```
-$ export DATABASE_URI=mongodb://example-mongo-hosting.com:1337/my-awesome-database
-```
+[Docker Compose](https://docs.docker.com/compose/install/), for running the local development server (included with Docker for Mac and Windows).
 
-#### 4. **Start Parse/GraphQL servers:**
+### Android
 
-```
-$ npm start
-```
+[Android Studio](https://developer.android.com/studio/install.html), for the Android SDK and tools.
 
-#### 5. **Import sample data** (the local Parse Server should be running):
+_Make sure to install the SDK and build tools for API level 23 (see [here](https://facebook.github.io/react-native/docs/getting-started.html) for more details)._
 
-```
-$ npm run import-data
-```
+### iOS
 
-Make sure everything works by visiting:
+[Xcode 8.3 +](https://developer.apple.com/download/), for the iOS build toolchain and simulators.
 
-* Parse Dashboard: [http://localhost:8080/dashboard](http://localhost:8080/dashboard)
-* Graph*i*QL: [http://localhost:8080/graphql](http://localhost:8080/graphql?query=query+%7B%0A++schedule+%7B%0A++++title%0A++++speakers+%7B%0A++++++name%0A++++++title%0A++++%7D%0A++++location+%7B%0A++++++name%0A++++%7D%0A++%7D%0A%7D)
+Facebook SDK ([iOS](https://developers.facebook.com/docs/ios/)), for building Facebook functionality into the app.
 
-![Parse Dashboard](/images/screenshot-server@2x.png)
+_Make sure the files are in `~/Documents/FacebookSDK/`_
 
-#### 6. **Running the Android version**:
-
-```
-$ react-native run-android
-$ adb reverse tcp:8081 tcp:8081   # required to ensure the Android app can
-$ adb reverse tcp:8080 tcp:8080   # access the Packager and GraphQL server
-```
+## Start the server
 
 
-#### 7. **Running the iOS version:**
+1. Start the local development server.
 
-```
-$ react-native run-ios
-```
+   ```
+   yarn server
+   ```
+
+2. Check that the server is working correctly.
+
+   _Go to the Parse Dashboard ([http://localhost:4040/apps/F8/](http://localhost:4040/apps/F8/)),
+   and it should look like this:_
+
+   <img src="/images/parse-dashboard@2x.png" width="800">
+
+## Run the App
+
+### All platforms
+
+1. Install the NPM dependencies.
+
+  ```
+  yarn
+  ```
+
+### Android
+
+1. Connect a device or open an emulator.
+
+2. Build and run the app.
+
+  ```
+  yarn android
+  ```
+
+### iOS
+
+1. Open the Xcode project.
+
+  ```
+  yarn ios
+  ```
+
+2. Build and run the app in a simulator (`⌘R`).
