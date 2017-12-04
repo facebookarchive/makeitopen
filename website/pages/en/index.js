@@ -187,11 +187,16 @@ class Index extends React.Component {
             </p>
 
             <p>
-              In 2016, we released the <a href="https://github.com/fbsamples/f8app/" target="_blank">
+              We've released the 2017 <a href="https://github.com/fbsamples/f8app/" target="_blank">
               source code on GitHub</a>, and produced a series of tutorials.
-              These were designed to introduce React Native and its Open
+              These are designed to introduce React Native and its Open
               Source ecosystem in plain English.
             </p>
+
+            <div className="featuredImage">
+              <a href="images/Data_Flow.svg" target="_blank"><img src='images/Data_Flow.svg' /></a>
+              <a href="images/Development_Environment.svg" target="_blank"><img src='images/Development_Environment.svg' /></a>
+            </div>
 
             <p>
               This tutorial series is typically updated during the app's
