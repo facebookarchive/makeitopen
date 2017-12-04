@@ -1,8 +1,11 @@
 ---
 title: F8 2017 App Open Source
-author: Christine Abernathy
-authorURL: http://twitter.com/abernathyca
-authorFBID: 1424840234
+author: Johnston Jiaa
+authorTitle: Software Engineer at Facebook
+authorURL: https://github.com/oclbdk
+authorFBID: 752670135
+authorTwitter: oclbdk
+category: announcements
 ---
 
 ![F8 2017 App](/images/f8app-2017-app.png)
