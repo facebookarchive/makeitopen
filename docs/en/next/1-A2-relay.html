@@ -1,10 +1,10 @@
-<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Using Relay and GraphQL · makeitopen.com</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Using Relay and GraphQL · makeitopen.com"/><meta property="og:type" content="website"/><meta property="og:url" content="http://makeitopen.com/index.html"/><meta property="og:description" content="When we originally planned the app [we discussed the choice of data layer](tutorials/building-the-f8-app/planning/#data-access-with-react-native) and compared [Redux](https://github.com/rackt/redux) (which was eventually used), with an alternative Facebook Open Source project called [Relay](https://facebook.github.io/relay/)."/><meta property="og:image" content="/images/f8app-2017-app.png"/><link rel="shortcut icon" href="/images/favicon_junction.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-savanna-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="http://makeitopen.com/blog/atom.xml" title="makeitopen.com Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="http://makeitopen.com/blog/feed.xml" title="makeitopen.com Blog RSS Feed"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/images/logo.png"/><h2 class="headerTitle">makeitopen.com</h2></a><a href="/en/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/blog" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Building the F8 App</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Building the F8 App</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/next/1-1-planning.html">Part 1: Planning The App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-2-design.html">Part 2: Designing an App for Multiple Platforms</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-3-data.html">Part 3: Integrating Data with React Native</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-4-testing.html">Part 4: Testing a React Native App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A1-local-setup.html">Appendix I: Running the App Locally</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/next/1-A2-relay.html">Appendix II: Using Relay and GraphQL</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A3-windows.html">Appendix III: Porting the F8 App To Windows</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A4-translations.html">Appendix IV: Makeitopen in Other Languages</a></li></ul></div></div></section></div><script>
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Using Relay and GraphQL · makeitopen.com</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Using Relay and GraphQL · makeitopen.com"/><meta property="og:type" content="website"/><meta property="og:url" content="http://makeitopen.com/index.html"/><meta property="og:description" content="When we originally planned the app [we discussed the choice of data layer](../2016.1.1.0/1-1-planning.html#data-access-with-react-native) and compared [Redux](https://github.com/rackt/redux) (which was eventually used) with an alternative Facebook Open Source project called [Relay](https://facebook.github.io/relay/)."/><meta property="og:image" content="/images/f8app-2017-app.png"/><link rel="shortcut icon" href="/images/favicon_junction.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atelier-savanna-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="http://makeitopen.com/blog/atom.xml" title="makeitopen.com Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="http://makeitopen.com/blog/feed.xml" title="makeitopen.com Blog RSS Feed"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/images/logo.png"/><h2 class="headerTitle">makeitopen.com</h2></a><a href="/en/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/blog" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Building the F8 App</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Building the F8 App</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/next/1-1-planning.html">Part 1: Planning The App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-2-design.html">Part 2: Designing an App for Multiple Platforms</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-3-data.html">Part 3: Integrating Data with React Native</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-4-testing.html">Part 4: Testing a React Native App</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A1-local-setup.html">Appendix I: Running the App Locally</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/next/1-A2-relay.html">Appendix II: Using Relay and GraphQL</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A3-windows.html">Appendix III: Porting the F8 App To Windows</a></li><li class="navListItem"><a class="navItem" href="/docs/en/next/1-A4-translations.html">Appendix IV: Makeitopen in Other Languages</a></li></ul></div></div></section></div><script>
           var toggler = document.getElementById('navToggler');
           var nav = document.getElementById('docsNav');
           toggler.onclick = function() {
             nav.classList.toggle('docsSliderActive');
           };
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/makeitopen/edit/master/docs/1-A2-relay.md" target="_blank">Edit</a><h1>Using Relay and GraphQL</h1></header><article><div><span><p>When we originally planned the app <a href="tutorials/building-the-f8-app/planning/#data-access-with-react-native">we discussed the choice of data layer</a> and compared <a href="https://github.com/rackt/redux">Redux</a> (which was eventually used), with an alternative Facebook Open Source project called <a href="https://facebook.github.io/relay/">Relay</a>.</p>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/makeitopen/edit/master/docs/1-A2-relay.md" target="_blank">Edit</a><h1>Using Relay and GraphQL</h1></header><article><div><span><p>When we originally planned the app <a href="../2016.1.1.0/1-1-planning.html#data-access-with-react-native">we discussed the choice of data layer</a> and compared <a href="https://github.com/rackt/redux">Redux</a> (which was eventually used) with an alternative Facebook Open Source project called <a href="https://facebook.github.io/relay/">Relay</a>.</p>
 <p>At the time, Redux was chosen because it offered the simpler data implementation of the two, and was quicker and easier to integrate with our Parse data storage.</p>
 <p>Once the app was released to the <a href="https://itunes.apple.com/us/app/f8/id853467066">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.facebook.f8">Android</a> app stores, we wanted to revisit that choice, and look at how Relay could work with our app.</p>
 <h3><a class="anchor" aria-hidden="true" name="gradual-evolution"></a><a href="#gradual-evolution" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Gradual Evolution</h3>
@@ -13,88 +13,126 @@
 <p>It is worth stating just how huge a benefit this is to continued development of an app - the ability to progressively enhance an app reduces the overhead for maintenance and updates drastically.</p>
 <p>So how does using Relay and GraphQL compare to the Redux model of thinking about data?</p>
 <h3><a class="anchor" aria-hidden="true" name="introducing-relay-and-graphql"></a><a href="#introducing-relay-and-graphql" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introducing Relay and GraphQL</h3>
-<p>Firstly, and in very simple terms, <a href="https://facebook.github.io/relay/">Relay</a> is the data framework that lives inside the app, and <a href="http://graphql.org/">GraphQL</a> is a query language used within Relay to represent the data schema. GraphQL is also run on a server separately from the app to provide a data source for Relay to interact with (we will be covering the GraphQL server setup in a future tutorial, stay tuned!).</p>
-<p>Relay isn't derived from the Flux architecture and is used only with GraphQL, which immediately means a big difference from the Redux model. The Store/Reducer/Component interaction we covered in the <a href="tutorials/building-the-f8-app/data/">data tutorial</a> does not really exist with Relay. It takes a different approach, and removes a lot of the building work you normally need to do when integrating data.</p>
-<p>With Relay, each React component specifies exactly what data it depends on, using GraphQL. Relay handles everything about fetching that data, providing the component with updates when the data changes, and caching the data client-side. Anytime the app wants to change the data itself, it creates a <a href="https://facebook.github.io/relay/docs/guides-mutations.html#content">GraphQL Mutation</a> instead of an Action as with Redux.</p>
+<p>Firstly, and in very simple terms, <a href="https://facebook.github.io/relay/">Relay</a> is the data framework that lives inside the app, and <a href="http://graphql.org/">GraphQL</a> is a query language used within Relay to represent the data schema. GraphQL is also run on a server separately from the app to provide a data source for Relay to interact with.</p>
+<p>Relay isn't derived from the Flux architecture and is used only with GraphQL, which immediately means a big difference from the Redux model. The Store/Reducer/Component interaction we covered in the <a href="1-3-data.html">data tutorial</a> does not really exist with Relay. It takes a different approach, and removes a lot of the building work you normally need to do when integrating data.</p>
+<p>With Relay, each React component specifies exactly what data it depends on, using GraphQL. Relay handles everything about fetching that data, providing the component with updates when the data changes, and caching the data client-side. Anytime the app wants to change the data itself, it creates a <a href="https://facebook.github.io/relay/docs/en/guides-mutations.html">GraphQL Mutation</a> instead of an Action as with Redux.</p>
 <h3><a class="anchor" aria-hidden="true" name="an-example-from-the-f8-app"></a><a href="#an-example-from-the-f8-app" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>An Example from the F8 App</h3>
-<p>Given the ability to progressively change a small part of a React Native app, we chose, as a kind of proof-of-concept, to swap Redux for Relay in the Info View of the F8 app:</p>
-<p><img src="/images/info_view.png" alt="Info view of F8 iOS app"></p>
+<p>Given the ability to progressively change a small part of a React Native app, we chose, as a kind of proof-of-concept, to swap Redux for Relay in the Demos View of the F8 app:</p>
+<p><img src="/images/demos-view-screenshot.png" alt="Demos view of F8 iOS app"></p>
 <p>This part of the app is pretty much entirely separate from the rest, with largely non-interactive content, making it an ideal place to start.</p>
-<p>The view itself contains an <code>&lt;InfoList&gt;</code> component that is pretty simple:</p>
-<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/info/F8InfoView.js */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">InfoList</span>(<span class="hljs-params">{viewer: {config, faqs, pages}, ...props}</span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    &lt;PureListView
-      renderEmptyList={() =&gt; (
-        &lt;View&gt;
-          &lt;WiFiDetails
-            network={config.wifiNetwork}
-            password={config.wifiPassword}
+<p>The view itself contains a simple function <code>renderView</code> to render the demos list:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/demos/F8DemosView.js */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">F8DemosView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  ...
+
+  renderView(demos, garages, hasBookables) {
+    <span class="hljs-keyword">const</span> hasBothTables = demos.length &amp;&amp; garages.length;
+
+    <span class="hljs-keyword">return</span> (
+      &lt;View style={styles.container}&gt;
+        &lt;View style={styles.header}&gt;
+          &lt;F8BackgroundRepeat
+            width={WINDOW_WIDTH}
+            height={PATTERN_HEIGHT}
+            source={require("../../common/img/pattern-dots.png")}
+            style={styles.headerBackground}
           /&gt;
-          &lt;CommonQuestions faqs={faqs} /&gt;
-          &lt;LinksList title="Facebook pages" links={pages} /&gt;
-          &lt;LinksList title="Facebook policies" links={POLICIES_LINKS} /&gt;
+          &lt;Image
+            style={styles.headerIllustration}
+            source={require("./img/header.png")}
+          /&gt;
         &lt;/View&gt;
-      )}
-      {...props}
-    /&gt;
-  );
+        &lt;View style={styles.contentContainer}&gt;
+          &lt;Heading2 style={styles.mainHeading}&gt;
+            {"Here are the demos\nyou’ll find at F8."}
+          &lt;/Heading2&gt;
+          {this.renderTable(demos, hasBothTables ? "Demos" : undefined)}
+          {this.renderTable(
+            this.props.garages,
+            hasBothTables ? "Developer Garage" : undefined
+          )}
+          {this.renderManageReservationsButton(hasBookables)}
+        &lt;/View&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  ...
 }
 </code></pre>
-<p>This is just a basic layout with some other simple info displaying components inside of it, but where are the <code>props</code> and arguments in the component coming from? Well, inside the same .js file, we have a connected GraphQL fragment:</p>
-<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/info/F8InfoView.js */</span>
-InfoList = Relay.createContainer(InfoList, {
-  <span class="hljs-attr">fragments</span>: {
-    <span class="hljs-attr">viewer</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Relay.QL<span class="hljs-string">`
-      fragment on User {
-        config {
-          wifiNetwork
-          wifiPassword
-        }
-        faqs {
-          question
-          answer
-        }
-        pages {
+<p>This is just a basic layout with some other simple info displaying components inside of it, but where are the parameters to the render method coming from? Well, inside the same .js file, we have a <code>&lt;QueryRenderer /&gt;</code>:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from js/tabs/demos/F8DemosView.js */</span>
+&lt;QueryRenderer
+  environment={environment}
+  query={graphql<span class="hljs-string">`
+    query F8DemosViewQuery {
+      demos {
+        title
+        description
+        booking
+        location
+        links {
           title
           url
-          logo
         }
+        logo
+        logoHeight
+        logoWidth
+        devGarage
       }
-    `</span>,
-  },
-});
-</code></pre>
-<p>Here we're defining exactly what data the <code>&lt;InfoList&gt;</code> component needs to be displayed, as a GraphQL fragment. This corresponds to the GraphQL object that we are defining on our GraphQL server:</p>
-<pre><code class="hljs css js"><span class="hljs-comment">/* from server/schema/schema.js */</span>
-<span class="hljs-keyword">var</span> F8UserType = <span class="hljs-keyword">new</span> GraphQLObjectType({
-  <span class="hljs-attr">name</span>: <span class="hljs-string">'User'</span>,
-  <span class="hljs-attr">description</span>: <span class="hljs-string">'A person who uses our app'</span>,
+    }
+  `</span>}
+  render={({ error, props }) =&gt; {
+    <span class="hljs-keyword">const</span> sortedDemos = sortDemos(idx(props, _ =&gt; _.demos));
+    <span class="hljs-keyword">const</span> demos = sortedDemos.filter(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> !d.devGarage);
+    <span class="hljs-keyword">const</span> garages = sortedDemos.filter(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.devGarage);
+    <span class="hljs-keyword">const</span> hasBookables = !!sortedDemos.find(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.booking);
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ListContainer</span>
+        <span class="hljs-attr">headerBackgroundColor</span>=<span class="hljs-string">{F8Colors.turquoise}</span>
+        <span class="hljs-attr">headerTitleColor</span>=<span class="hljs-string">{F8Colors.sapphire}</span>
+        <span class="hljs-attr">title</span>=<span class="hljs-string">"Demos"</span>
+        <span class="hljs-attr">leftItem</span>=<span class="hljs-string">{{</span>
+          <span class="hljs-attr">title:</span> "<span class="hljs-attr">Map</span>",
+          <span class="hljs-attr">layout:</span> "<span class="hljs-attr">icon</span>",
+          <span class="hljs-attr">icon:</span> <span class="hljs-attr">require</span>("<span class="hljs-attr">..</span>/<span class="hljs-attr">..</span>/<span class="hljs-attr">common</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">header</span>/<span class="hljs-attr">map.png</span>"),
+          <span class="hljs-attr">onPress:</span> <span class="hljs-attr">_</span> =&gt;</span>
+            this.props.navigator &amp;&amp;
+            this.props.navigator.push({ maps: true })
+        }}
+      &gt;
+        <span class="hljs-tag">&lt;<span class="hljs-name">PureListView</span>
+          <span class="hljs-attr">renderRow</span>=<span class="hljs-string">{_</span> =&gt;</span> {}}
+          renderEmptyList={() =&gt;
+            this.renderView(demos, garages, hasBookables)}
+        /&gt;
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ListContainer</span>&gt;</span>
+    );
+  }}
+/&gt;
+</span></code></pre>
+<p>Here we're defining exactly what data the <code>renderView</code> method needs to be displayed, as a GraphQL query. This corresponds to the GraphQL object that we are defining on our GraphQL server:</p>
+<pre><code class="hljs css js"><span class="hljs-comment">/* from server/graphql/src/schema/demo.js */</span>
+<span class="hljs-keyword">const</span> demoType = <span class="hljs-keyword">new</span> GraphQLObjectType({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">"Demo"</span>,
   <span class="hljs-attr">fields</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({
-    <span class="hljs-attr">id</span>: globalIdField(<span class="hljs-string">'User'</span>),
-    <span class="hljs-attr">name</span>: {
+    <span class="hljs-attr">id</span>: globalIdField(),
+    <span class="hljs-attr">title</span>: {
       <span class="hljs-attr">type</span>: GraphQLString,
+      <span class="hljs-attr">resolve</span>: <span class="hljs-function"><span class="hljs-params">demo</span> =&gt;</span> demo.get(<span class="hljs-string">"title"</span>)
     },
     ...
-    faqs: {
-      <span class="hljs-attr">type</span>: <span class="hljs-keyword">new</span> GraphQLList(F8FAQType),
-      <span class="hljs-attr">resolve</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">new</span> Parse.Query(FAQ).find(),
-    },
-    <span class="hljs-attr">pages</span>: {
-      <span class="hljs-attr">type</span>: <span class="hljs-keyword">new</span> GraphQLList(F8PageType),
-      <span class="hljs-attr">resolve</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">new</span> Parse.Query(Page).find(),
-    },
-    <span class="hljs-attr">config</span>: {
-      <span class="hljs-attr">type</span>: F8ConfigType,
-      <span class="hljs-attr">resolve</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Parse.Config.get(),
+    devGarage: {
+      <span class="hljs-attr">type</span>: GraphQLBoolean,
+      <span class="hljs-attr">resolve</span>: <span class="hljs-function"><span class="hljs-params">demo</span> =&gt;</span> demo.get(<span class="hljs-string">"devGarage"</span>)
     }
   }),
-  ...
+  <span class="hljs-attr">interfaces</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> [<span class="hljs-built_in">require</span>(<span class="hljs-string">"./node"</span>).nodeInterface]
 });
 </code></pre>
-<p>You can see how the data is fetched by the GraphQL server, then Relay takes care of grabbing all the required data specified in the fragment. This data becomes available to the <code>&lt;InfoList&gt;</code> component as the <code>viewer</code> argument, and using some <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">destructuring assignments</a>, in turn this creates the <code>config</code>, <code>faqs</code>, <code>pages</code> variables which are used within the component.</p>
+<p>You can see how the data is fetched by the GraphQL server, then Relay takes care of grabbing all the required data specified in the fragment. This data becomes available as the <code>props</code> parameters in the function passed to the <code>&lt;QueryRender /&gt;</code>'s' render prop.</p>
 <p>Thanks to Relay's built-in logic, we don't need to worry about subscribing to data changes, or caching data in a Store, or anything else - we just tell Relay what data our component should have, and we design our component in the standard React way. With our GraphQL server already set up, that's all we need to do.</p>
-<p>We have no data changes in this view, however if you want to learn more about how they work, please <a href="https://facebook.github.io/relay/docs/guides-mutations.html#content">read the Relay docs on mutations</a>.</p>
+<p>We have no data changes in this view, however if you want to learn more about how they work, please <a href="https://facebook.github.io/relay/docs/guides-mutations.html">read the Relay docs on mutations</a>.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="1-A1-local-setup.html">← Running the App Locally</a><a class="docs-next button" href="1-A3-windows.html">Porting the F8 App To Windows →</a></div></div></div></div><div class="footerContainer"><div id="footer_wrap" class="wrapper footerWrapper"><div class="footerBlocks"><div id="fb_oss" class="footerSection fbOpenSourceFooter"><svg class="facebookOSSLogoSvg" viewBox="0 0 1133.9 1133.9" x="0px" y="0px"><g><path class="logoRing outerRing" d="M 498.3 3.7 c 153.6 88.9 307.3 177.7 461.1 266.2 c 7.6 4.4 10.3 9.1 10.3 17.8 c -0.3 179.1 -0.2 358.3 0 537.4 c 0 8.1 -2.4 12.8 -9.7 17.1 c -154.5 88.9 -308.8 178.1 -462.9 267.5 c -9 5.2 -15.5 5.3 -24.6 0.1 c -153.9 -89.2 -307.9 -178 -462.1 -266.8 C 3 838.8 0 833.9 0 825.1 c 0.3 -179.1 0.2 -358.3 0 -537.4 c 0 -8.6 2.6 -13.6 10.2 -18 C 164.4 180.9 318.4 92 472.4 3 C 477 -1.5 494.3 -0.7 498.3 3.7 Z M 48.8 555.3 c 0 79.9 0.2 159.9 -0.2 239.8 c -0.1 10 3 15.6 11.7 20.6 c 137.2 78.8 274.2 157.8 411 237.3 c 9.9 5.7 17 5.7 26.8 0.1 c 137.5 -79.8 275.2 -159.2 412.9 -238.5 c 7.4 -4.3 10.5 -8.9 10.5 -17.8 c -0.3 -160.2 -0.3 -320.5 0 -480.7 c 0 -8.8 -2.8 -13.6 -10.3 -18 C 772.1 218 633.1 137.8 494.2 57.4 c -6.5 -3.8 -11.5 -4.5 -18.5 -0.5 C 336.8 137.4 197.9 217.7 58.8 297.7 c -7.7 4.4 -10.2 9.2 -10.2 17.9 C 48.9 395.5 48.8 475.4 48.8 555.3 Z"></path><path class="logoRing middleRing" d="M 184.4 555.9 c 0 -33.3 -1 -66.7 0.3 -100 c 1.9 -48 24.1 -86 64.7 -110.9 c 54.8 -33.6 110.7 -65.5 167 -96.6 c 45.7 -25.2 92.9 -24.7 138.6 1 c 54.4 30.6 108.7 61.5 162.2 93.7 c 44 26.5 67.3 66.8 68 118.4 c 0.9 63.2 0.9 126.5 0 189.7 c -0.7 50.6 -23.4 90.7 -66.6 116.9 c -55 33.4 -110.8 65.4 -167.1 96.5 c -43.4 24 -89 24.2 -132.3 0.5 c -57.5 -31.3 -114.2 -64 -170 -98.3 c -41 -25.1 -62.9 -63.7 -64.5 -112.2 C 183.5 621.9 184.3 588.9 184.4 555.9 Z M 232.9 556.3 c 0 29.5 0.5 59.1 -0.1 88.6 c -0.8 39.2 16.9 67.1 50.2 86.2 c 51.2 29.4 102.2 59.2 153.4 88.4 c 31.4 17.9 63.6 18.3 95 0.6 c 53.7 -30.3 107.1 -61.2 160.3 -92.5 c 29.7 -17.5 45 -44.5 45.3 -78.8 c 0.6 -61.7 0.5 -123.5 0 -185.2 c -0.3 -34.4 -15.3 -61.5 -44.9 -79 C 637.7 352.6 583 320.8 527.9 290 c -27.5 -15.4 -57.2 -16.1 -84.7 -0.7 c -56.9 31.6 -113.4 64 -169.1 97.6 c -26.4 15.9 -40.7 41.3 -41.1 72.9 C 232.6 491.9 232.9 524.1 232.9 556.3 Z"></path><path class="logoRing innerRing" d="M 484.9 424.4 c 69.8 -2.8 133.2 57.8 132.6 132 C 617 630 558.5 688.7 484.9 689.1 c -75.1 0.4 -132.6 -63.6 -132.7 -132.7 C 352.1 485 413.4 421.5 484.9 424.4 Z M 401.3 556.7 c -3.4 37.2 30.5 83.6 83 84.1 c 46.6 0.4 84.8 -37.6 84.9 -84 c 0.1 -46.6 -37.2 -84.4 -84.2 -84.6 C 432.2 472.1 397.9 518.3 401.3 556.7 Z"></path></g></svg><h2>Facebook Open Source</h2></div><div class="footerSection rightAlign"><a class="footerLink" href="https://code.facebook.com/projects/" target="_blank">Open Source Projects</a><a class="footerLink" href="https://github.com/facebook/" target="_blank">GitHub</a><a class="footerLink" href="https://twitter.com/fbOpenSource" target="_blank">Twitter</a><a class="footerLink" href="https://github.com/facebook/makeitopen/" target="_blank">Contribute on GitHub</a></div></div></div></div></div><script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
