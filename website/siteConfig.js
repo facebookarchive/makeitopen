@@ -24,6 +24,7 @@ const siteConfig = {
   headerIcon: "images/logo.png",
   footerIcon: "images/oss_logo.png",
   favicon: "images/favicon_junction.png",
+  ogImage: "images/f8app-2017-app.png",
   /* colors for website */
   colors: {
     primaryColor: "#dc6f62",
