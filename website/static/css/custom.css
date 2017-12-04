@@ -383,7 +383,7 @@ nav.toc .toggleNav {
 
 .featuredImage {
   text-align: center;
-  padding: 10px;
+  padding: 0 10px 0 10px;
 }
 
 .featuredImage a:hover {
