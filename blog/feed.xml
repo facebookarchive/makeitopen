@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>makeitopen.com Blog</title>
+        <link>http://makeitopen.com/blog</link>
+        <description>The best place to stay up-to-date with the latest makeitopen.com news and events.</description>
+        <lastBuildDate>Mon, 04 Dec 2017 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>makeitopen.com Blog</title>
+            <url>http://makeitopen.comimages/logo.png</url>
+            <link>http://makeitopen.com/blog</link>
+        </image>
+        <copyright>Copyright © 2017 Your Name or Your Company Name</copyright>
+        <item>
+            <title><![CDATA[F8 2017 App Open Source]]></title>
+            <link>http://makeitopen.com/blog/2017/12/04/blog-post-f82017-open-source.html</link>
+            <guid>http://makeitopen.com/blog/2017/12/04/blog-post-f82017-open-source.html</guid>
+            <pubDate>Mon, 04 Dec 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[![F8 2017 App](/images/f8app-2017-app.png)
+
+Since 2015, we've open sourced the F8 conference app. This gives developers insights into how we build at Facebook and is a great showcase for how Facebook open source projects work together. We've even hea]]></description>
+        </item>
+    </channel>
+</rss>

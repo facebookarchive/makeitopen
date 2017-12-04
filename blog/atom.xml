@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>http://makeitopen.com/blog</id>
+    <title>makeitopen.com Blog</title>
+    <updated>2017-12-04T06:00:00Z</updated>
+    <generator>Feed for Node.js</generator>
+    <link rel="alternate" href="http://makeitopen.com/blog"/>
+    <subtitle>The best place to stay up-to-date with the latest makeitopen.com news and events.</subtitle>
+    <logo>http://makeitopen.comimages/logo.png</logo>
+    <rights>Copyright © 2017 Your Name or Your Company Name</rights>
+    <entry>
+        <title type="html"><![CDATA[F8 2017 App Open Source]]></title>
+        <id>http://makeitopen.com/blog/2017/12/04/blog-post-f82017-open-source.html</id>
+        <link href="http://makeitopen.com/blog/2017/12/04/blog-post-f82017-open-source.html">
+        </link>
+        <updated>2017-12-04T06:00:00Z</updated>
+        <summary type="html"><![CDATA[![F8 2017 App](/images/f8app-2017-app.png)
+
+Since 2015, we've open sourced the F8 conference app. This gives developers insights into how we build at Facebook and is a great showcase for how Facebook open source projects work together. We've even hea]]></summary>
+        <author>
+            <name>Johnston Jiaa</name>
+            <uri>https://github.com/oclbdk</uri>
+        </author>
+    </entry>
+</feed>
