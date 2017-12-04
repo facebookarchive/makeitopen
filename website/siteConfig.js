@@ -16,6 +16,7 @@ const siteConfig = {
   projectName: "makeitopen",
   cname: "makeitopen.com",
   headerLinks: [
+    {blog: true, label: 'Blog'},
     { languages: true },
   ],
   users,
