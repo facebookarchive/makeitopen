@@ -808,13 +808,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-diff@^3.3.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
-
-docusaurus@^1.0.0-beta.12:
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-1.0.0-beta.12.tgz#575dad9b75efd129fd80bfe8ac3cedcd49f5aaf6"
+docusaurus@^1.0.0-beta.13:
+  version "1.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-1.0.0-beta.13.tgz#8ad019033fc9df5cc6315cb5f26a89ffaeca7a94"
   dependencies:
     babel-preset-env "^1.6.0"
     babel-preset-react "^6.24.1"
@@ -825,7 +821,6 @@ docusaurus@^1.0.0-beta.12:
     classnames "^2.2.5"
     commander "^2.11.0"
     crowdin-cli "^0.3.0"
-    diff "^3.3.0"
     escape-string-regexp "^1.0.5"
     express "^4.15.3"
     feed "^1.1.0"
