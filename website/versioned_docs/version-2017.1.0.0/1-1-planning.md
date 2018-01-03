@@ -14,7 +14,7 @@ In this first part, we're going to talk about how we planned the app; in later p
 
 In 2015 the F8 iOS app was built using React Native, but the Android version used native code; in previous years both were built using native iOS and Android code. Since then, React Native has been released for Android, which presented an opportunity to cut the surface area of the app's logic and UI code. Some Facebook teams have seen [around 85% re-use of app code](https://code.facebook.com/posts/1189117404435352/react-native-for-android-how-we-built-the-first-cross-platform-react-native-app/) when using React Native.
 
-React Native also provides the benefit of being able to quickly prototype visual components in a tight loop with UI designers - something we'll discuss in [part two](/_docs/1-2-design.md).
+React Native also provides the benefit of being able to quickly prototype visual components in a tight loop with UI designers - something we'll discuss in [part two](1-2-design.md).
 
 So, if we've switched to React Native, what else do we need to consider? Let's start with the content.
 
@@ -26,7 +26,7 @@ There were other reasons for using Parse - much of the content displayed within 
 
 Given all this, Parse became the best choice for this app's data backend. In light of the [Parse Cloud Code shutdown announcement](http://blog.parse.com/announcements/moving-on/), we decided to transition to use the newly open-sourced [Parse Server](http://blog.parse.com/announcements/introducing-parse-server-and-the-database-migration-tool/) and [Parse Dashboard](https://github.com/ParsePlatform/parse-dashboard) projects.
 
-React Native doesn't need to be tightly connected to a data layer. For example, development of the UI and app logic in a React Native app can be done with simple mock data. This means that as long as the structure of the data remains the same, you can swap the data source of a fully built app with minimal amounts of adjustment. For the F8 App this meant we could very easily transition from Parse Cloud Code to the open source Parse Server after the app had already been developed. We'll cover this more in the [data tutorial](/_data/tutorials.yml/).
+React Native doesn't need to be tightly connected to a data layer. For example, development of the UI and app logic in a React Native app can be done with simple mock data. This means that as long as the structure of the data remains the same, you can swap the data source of a fully built app with minimal amounts of adjustment. For the F8 App this meant we could very easily transition from Parse Cloud Code to the open source Parse Server after the app had already been developed. We'll cover this more in the [data tutorial](1-3-data.md).
 
 ### Data Access with React Native
 
