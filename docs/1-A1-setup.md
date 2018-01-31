@@ -51,12 +51,18 @@ _Make sure the files are in `~/Documents/FacebookSDK/`_
    ```
 
 2. Check that the server is working correctly.
-
+   
    _Go to the Parse Dashboard ([http://localhost:4040/apps/F8/](http://localhost:4040/apps/F8/)),
    and it should look like this:_
 
    <img src="/images/parse-dashboard@2x.png" width="800">
-
+   
+   Login Credentials
+   
+   **Username**: admin
+   
+   **Password**: admin
+   
 ## Run the App
 
 ### All platforms
