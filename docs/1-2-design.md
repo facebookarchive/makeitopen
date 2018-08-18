@@ -15,7 +15,7 @@ Platforms can have somewhat different visual styles, UI paradigms, or even techn
 
 #### Before We Start
 
-In this and subsequent tutorials, we're going to be diving into the code of the app itself, so you should [grab the source code](https://github.com/fbsamples/f8app) and clone it somewhere you can conveniently browse. You could also follow [our setup instructions](tutorials/building-the-f8-app/local-setup/) to use this to run the app yourself locally, but for the purposes of this tutorial, you just need to see the source code itself.
+In this and subsequent tutorials, we're going to be diving into the code of the app itself, so you should [grab the source code](https://github.com/fbsamples/f8app) and clone it somewhere you can conveniently browse. You could also follow [our setup instructions](docs/en/1-A1-local-setup.html) to use this to run the app yourself locally, but for the purposes of this tutorial, you just need to see the source code itself.
 
 ### The React Native Mindset
 
