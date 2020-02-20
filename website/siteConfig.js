@@ -46,6 +46,10 @@ const siteConfig = {
     // Highlight.js theme to use for syntax highlighting in code blocks
     theme: "atelier-savanna-dark"
   },
+  algolia: {
+    apiKey: '4a1af46ccc9139ac7f5600a41a29cdf7',
+    indexName: 'f8app',
+  },
 };
 
 module.exports = siteConfig;
